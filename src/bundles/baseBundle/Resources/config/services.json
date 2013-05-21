@@ -1,0 +1,10 @@
+{
+   "logger" :
+   {
+        "class" : "service\\logger",
+        "parameters" : [],
+        "tags" : [
+            {"name" : "kernel.event", "event" : "onReady", "method" : "onReady"}
+        ]
+   }
+}
