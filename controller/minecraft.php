@@ -9,10 +9,17 @@
 
 namespace controller;
 
+use lib\Response;
+use model\containerAwaire;
 
-class minecraft {
+class minecraft extends containerAwaire {
 	     public function toiAction()
 	     {
-		     return "c'est moi dédé";
+		     return new Response(
+			 $this
+			 ->container
+			 ->get("twig")
+			 ->render("test.html.twig", array())
+			 );
 	     }
 }
