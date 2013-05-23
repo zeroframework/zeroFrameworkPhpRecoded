@@ -45,7 +45,7 @@ class httpKernel {
 			   list($controller, $method) = $parametres;
 
 			   $filterController = new \ArrayObject(array(
-				   "controoler" => $controller,
+				   "controller" => $controller,
 				   "method" => $method
 			   ));
 
@@ -76,9 +76,12 @@ class httpKernel {
 			   // http://php.net/manual/en/reflectionmethod.invokeargs.php
 			   $return = $method->invokeArgs($instance, array());
 
+
+			  $this->eventManager->notify("httpkernel.view", null);
+
 			   // On affiche le retour de cette méthode
 			   if(!$return instanceof Response) throw new \Exception("Controller doesn't return Response");
-
+			  $this->eventManager->notify("httpkernel.response", $return);
  $return->render();
 		  }
 	}

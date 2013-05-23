@@ -65,7 +65,7 @@ class autoloader {
              foreach(new DirectoryIterator($baseDirectory) as $file)
              {
                 $path = $file->getPath()."/".$className.".php";
-
+				$path = str_replace(array("/","\\"), array(DIRECTORY_SEPARATOR, DIRECTORY_SEPARATOR), $path);
                  $file = new SplFileInfo($path);
                  if($file->isFile())
                  {
