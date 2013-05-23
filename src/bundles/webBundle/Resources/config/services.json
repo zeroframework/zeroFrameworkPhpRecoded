@@ -10,7 +10,7 @@
 	"httpKenrel" :
 	{
 		"class" : "service\\httpKernel",
-	    "parameters" : ["@logger", "@eventmanager"],
+	    "parameters" : ["@logger", "@eventmanager", "@service_container"],
 		"tags" : [
 			{"name" : "kernel.event", "event" : "onRequest", "method" : "onRequest"}
 		]

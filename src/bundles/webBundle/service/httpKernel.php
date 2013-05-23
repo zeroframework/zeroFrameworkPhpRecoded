@@ -4,16 +4,19 @@ namespace service;
 
 use interfaces\service;
 use lib\Response;
+use interfaces\containerAwaireInterface;
 
 class httpKernel {
 
 	private $logger;
 	private $eventManager;
+	private $container;
 
-	public function __construct($logger, $eventManager)
+	public function __construct($logger, $eventManager, $container)
 	{
 		  $this->logger = $logger;
 		$this->eventManager = $eventManager;
+		$this->container = $container;
 	}
 
 
@@ -23,7 +26,9 @@ class httpKernel {
 
 		  // Le service request à toutes les varaibles serveur dans sa propriété server, comme c'est un arrayObject
 		  // ON peut récupérer les infos de ce tableau par [] ou offsetGet
-		  $pathinfo = $request->server->offsetGet("PATH_INFO");
+		  $pathinfo = @$request->server->offsetGet("PATH_INFO");
+		  
+		  if(empty($pathinfo)) return;
 
 		  // Path info étant par éxemple égale  à /minecraft/toi pour http://localhost/index.php/minecraft/toi
 		  // Car il contient tous ce qui est après index.php on ne veux pas du / du début
@@ -64,6 +69,11 @@ class httpKernel {
 			   // On demande de crée une nouvelel instance de controller\\$controller
 			   // http://php.net/manual/en/reflectionclass.newinstance.php
 			   $instance = $class->newInstance();
+			   
+			   if($instance instanceof containerAwaireInterface)
+			   {
+					$instance->setContainer($this->container);
+			   }
 
 			   // On récupere un objet d'introspection de la methodé $methodeAction (ReflectionMethod voir php.net)
 			   // http://www.php.net/manual/en/reflectionclass.getmethod.php

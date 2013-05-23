@@ -75,7 +75,7 @@ return;
              }
          }
 
-throw new \Exception("Autoloader doesn't load class $className");
+//throw new \Exception("Autoloader doesn't load class $className");
      }
 }
 ?>

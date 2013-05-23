@@ -7,7 +7,7 @@
  * To change this template use File | Settings | File Templates.
  */
 
-class serviceContainer {
+class serviceContainer implements ArrayAccess {
     private $services = array();
 
     public function __set($name , $value)
@@ -19,6 +19,28 @@ class serviceContainer {
     {
         return isset($this->services[$name]);
     }
+	
+	public function offsetUnset($name)
+	{
+		unset($this->services[$name]);
+	}
+	
+	public function offsetExists($name)
+	{
+		return isset($this->services[$name]);
+	}
+	
+	public function offsetGet($name)
+	{
+		return $this->__get($name);
+	}
+	
+	public function offsetSet($name, $value)
+	{
+		$this->__set($name, $value);
+	}
+	
+	
 
     public function __get($name)
     {
