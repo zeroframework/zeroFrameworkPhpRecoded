@@ -46,6 +46,9 @@ $autoloader->addBaseDirectory(core::_getCoreDirectory()."/src/bundles/twigWebExt
 // Le bundle routingBundle
 $autoloader->addBaseDirectory(core::_getCoreDirectory()."/src/bundles/routingBundle");
 
+// Le bundle webBar
+$autoloader->addBaseDirectory(core::_getCoreDirectory()."/src/bundles/webbarBundle");
+
 /**
  * Class app
  * Classe principale de l'application , c'est par la qu'on passe l'ors du chargement de cette page
@@ -138,6 +141,7 @@ webBundle::register($app);
 twigBundle::register($app);
 twigWebExtensionBundle::register($app);
 routingBundle::register($app);
+webbarBundle::register($app);
 
 // Schema de conception
 /**

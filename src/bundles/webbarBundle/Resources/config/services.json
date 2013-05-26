@@ -1,0 +1,10 @@
+{
+	"webbar" :
+	{
+	    "class" : "service\\debugbar",
+	    "parameters" : [""],
+	    "tags" : [
+	        {"name" : "kernel.event", "event" : "httpkernel.response", "method" : "onResponse"}
+	    ]
+	}
+}

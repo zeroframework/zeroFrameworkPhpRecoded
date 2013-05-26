@@ -28,8 +28,6 @@ class httpKernel {
 		  // ON peut récupérer les infos de ce tableau par [] ou offsetGet
 		  $pathinfo = @$request->getUri();
 		  
-		  echo $pathinfo;
-		  
 		  if(empty($pathinfo)) return;
 
 		  // Path info étant par éxemple égale  à /minecraft/toi pour http://localhost/index.php/minecraft/toi
