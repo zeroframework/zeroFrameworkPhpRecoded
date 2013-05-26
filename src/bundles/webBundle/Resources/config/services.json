@@ -7,7 +7,7 @@
 	        {"name" : "kernel.event", "event" : "onReady", "method" : "onReady"}
 	    ]
 	},
-	"httpKenrel" :
+	"httpKernel" :
 	{
 		"class" : "service\\httpKernel",
 	    "parameters" : ["@logger", "@eventmanager", "@service_container"],

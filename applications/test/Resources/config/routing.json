@@ -1,0 +1,7 @@
+{
+	"maroute" :
+	{
+		"path" : "/ettoi",
+		"controller" : "minecraft:toi"
+	}
+}

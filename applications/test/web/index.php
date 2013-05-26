@@ -1,5 +1,4 @@
 <?php
-
 include("../../../vendor/autoload.php");
 include("../../../core.php");
 include("../../../lib/autoloader.php");
@@ -41,6 +40,12 @@ $autoloader->addBaseDirectory(core::_getCoreDirectory()."/src/bundles/webBundle"
 // Le bundle twigBundle
 $autoloader->addBaseDirectory(core::_getCoreDirectory()."/src/bundles/twigBundle");
 
+// Le bundle extension twig bundle
+$autoloader->addBaseDirectory(core::_getCoreDirectory()."/src/bundles/twigWebExtensionBundle");
+
+// Le bundle routingBundle
+$autoloader->addBaseDirectory(core::_getCoreDirectory()."/src/bundles/routingBundle");
+
 /**
  * Class app
  * Classe principale de l'application , c'est par la qu'on passe l'ors du chargement de cette page
@@ -59,7 +64,7 @@ class app Extends Core implements interfaces\event, interfaces\core {
 
 	    foreach($services as $servicename => $serviceparameters)
 	    {
-			    $container->$servicename = function($c) use ($servicename, $serviceparameters   )
+			$container->$servicename = function($c) use ($servicename, $serviceparameters)
 		    {
 			    $class = new ReflectionClass($serviceparameters["class"]);
 
@@ -84,9 +89,11 @@ class app Extends Core implements interfaces\event, interfaces\core {
 
 				    }
 			    }
-
+				
 			    return $class->newInstanceArgs($parameters);
 		    };
+			
+			$container->$servicename = $container->share($container->raw($servicename));
 	    }
 
 	    foreach($services as $servicename => $serviceparameters)
@@ -95,7 +102,7 @@ class app Extends Core implements interfaces\event, interfaces\core {
 		    {
 			    foreach($serviceparameters["tags"] as $tag)
 			    {
-				    if($tag["name"] = "kernel.event")
+				    if($tag["name"] == "kernel.event")
 				    {
 					    $this
 						    ->getEventManager()
@@ -125,10 +132,12 @@ array_walk($libs_files, function($lib)
     require_once($lib);
 });
 
+application::register($app);
 baseBundle::register($app);
 webBundle::register($app);
 twigBundle::register($app);
-
+twigWebExtensionBundle::register($app);
+routingBundle::register($app);
 
 // Schema de conception
 /**
@@ -142,7 +151,7 @@ try {
 catch(Exception $e)
 {
     echo "Exception Catch : ".$e->getMessage();
-	echo $e->getTrace();
+	echo $e->getTraceAsString ();
 }
 
 ?>

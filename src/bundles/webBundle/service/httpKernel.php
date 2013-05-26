@@ -26,7 +26,9 @@ class httpKernel {
 
 		  // Le service request à toutes les varaibles serveur dans sa propriété server, comme c'est un arrayObject
 		  // ON peut récupérer les infos de ce tableau par [] ou offsetGet
-		  $pathinfo = @$request->server->offsetGet("PATH_INFO");
+		  $pathinfo = @$request->getUri();
+		  
+		  echo $pathinfo;
 		  
 		  if(empty($pathinfo)) return;
 
@@ -42,6 +44,11 @@ class httpKernel {
 		  // http://fr2.php.net/manual/en/function.explode.php
 		  $parametres = explode("/", $uri);
 
+		  $filterController = new \ArrayObject(array(
+			"method" => null,
+			"controller" => null,
+		  ));
+		  
 		  // On vérifie que le ttbleau est composé de deux élement minimum pour le controller et l'action
 		  if(count($parametres) >= 2)
 		  {
@@ -49,12 +56,23 @@ class httpKernel {
 			   // http://fr2.php.net/manual/en/function.list.php
 			   list($controller, $method) = $parametres;
 
-			   $filterController = new \ArrayObject(array(
-				   "controller" => $controller,
-				   "method" => $method
-			   ));
+			   $filterController->offsetSet("controller", $controller);
+			   $filterController->offsetSet("method", $method);
+		  }
+		  
+		  if(
+			!$filterController->offsetExists("controller")
+			||
+			!$filterController->offsetExists("method")
+		  )
+		  {
+		    header("HTTP/1.0 404 Not Found");
+			throw new \Exception("not controller matched by url found !");
+		  }
+			   
+		  $this->eventManager->notify("httpkernel.controller", $filterController);
+		  
 
-			   $this->eventManager->notify("httpkernel.controller", $filterController);
 			   // En mvc (modèle, vue , controlleur)
 
 			   // Un cotnroller est une classe et la méthode ou action est une méthode de cette classe
@@ -92,8 +110,8 @@ class httpKernel {
 			   // On affiche le retour de cette méthode
 			   if(!$return instanceof Response) throw new \Exception("Controller doesn't return Response");
 			  $this->eventManager->notify("httpkernel.response", $return);
- $return->render();
-		  }
+				$return->render();
+		  
 	}
 
 }

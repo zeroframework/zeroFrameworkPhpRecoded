@@ -1,0 +1,10 @@
+{
+	"router" :
+	{
+	    "class" : "service\\routing",
+	    "parameters" : ["@service_container", "@request"],
+	    "tags" : [
+	        {"name" : "kernel.event", "event" : "httpkernel.controller", "method" : "onDispatchController"}
+	    ]
+	}
+}

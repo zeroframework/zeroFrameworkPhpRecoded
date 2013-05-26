@@ -35,7 +35,7 @@ class request {
 	}
 
 	private function prepareRequest()
-	{
+	{	
 		if(!$this->isWebRequest())
 		{
 		    return;
@@ -46,6 +46,13 @@ class request {
 		$this->server = new \ArrayObject($_SERVER);
     }
 
+	public function getUri()
+	{
+		list($uri) = explode("?", $this->server->offsetGet("REQUEST_URI"));
+	
+		return $uri;
+	}
+	
 	private function isWebRequest()
 	{
 	    return isset($_GET);

@@ -1,0 +1,10 @@
+{
+	"extensiontwig" :
+	{
+	    "class" : "service\\extensiontwig",
+	    "parameters" : [],
+	    "tags" : [
+	        {"name" : "kernel.event", "event" : "onReady", "method" : "onReady"}
+	    ]
+	}
+}

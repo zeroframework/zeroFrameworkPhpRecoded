@@ -2,8 +2,22 @@
 
 class twigBundle
 {
-	public static function register($core)
+	public static function loadServices($app)
 	{
+		$container = $app->getServiceContainer();
+	
+	    // Initialise le parametres services comme un tableau vide s'il n'existe pas sinon fussion un autre tableau à celui déjà existant
+	    $services = $app->getConf()->loadConfigurationFile("services", __DIR__.DIRECTORY_SEPARATOR."Resources".DIRECTORY_SEPARATOR."config");
+
+	    if(!$container->has("services")) $container->services = array();
+
+	    $container->services = array_merge($container->services, $services);
+	}
+
+	public static function register($core)
+	{	
+		twigBundle::loadServices($core);
+	
 		$app = $core->getServiceContainer();
 		
 		$app["charset"] = "UTF-8";
@@ -79,6 +93,7 @@ class twigBundle
                 $app['twig.loader.filesystem'],
             ));
         });
+		
 	}
 }
 

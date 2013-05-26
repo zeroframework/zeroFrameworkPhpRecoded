@@ -1,0 +1,10 @@
+{
+	"twig.extension.web" :
+	{
+	    "class" : "service\\webTwig",
+	    "parameters" : [],
+	    "tags" : [
+	        {"name" : "twig.extensions"}
+	    ]
+	}
+}

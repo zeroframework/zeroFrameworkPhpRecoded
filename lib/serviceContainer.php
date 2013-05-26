@@ -48,6 +48,11 @@ class serviceContainer implements ArrayAccess {
 
         return (is_callable($this->services[$name])) ? $this->services[$name]($this) : $this->services[$name];
     }
+	
+	public function raw($name)
+	{
+		return $this->services[$name];
+	}
 
     public function share(Closure $serviceHandle)
     {
