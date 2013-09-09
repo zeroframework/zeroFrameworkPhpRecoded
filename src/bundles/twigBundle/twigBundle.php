@@ -19,16 +19,19 @@ class twigBundle
 		twigBundle::loadServices($core);
 	
 		$app = $core->getServiceContainer();
+
+        $eventManager = $core->getEventManager();
 		
 		$app["charset"] = "UTF-8";
 		$app["debug"] = true;
 	
 		$app['twig.options'] = array();
         $app['twig.form.templates'] = array('form_div_layout.html.twig');
-        $app['twig.path'] = array(APP_DIRECTORY."/../html/");
+        $app['twig.path'] = array(APP_DIRECTORY."/html/");
         $app['twig.templates'] = array();
 
-        $app['twig'] = $app->share(function ($app) {
+        $app['twig'] = $app->share(function ($app) use($core) {
+
             $app['twig.options'] = array_replace(
                 array(
                     'charset'          => $app['charset'],

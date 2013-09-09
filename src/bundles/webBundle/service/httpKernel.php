@@ -14,7 +14,7 @@ class httpKernel {
 
 	public function __construct($logger, $eventManager, $container)
 	{
-		  $this->logger = $logger;
+		$this->logger = $logger;
 		$this->eventManager = $eventManager;
 		$this->container = $container;
 	}

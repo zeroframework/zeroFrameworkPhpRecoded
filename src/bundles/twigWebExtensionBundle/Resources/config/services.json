@@ -4,7 +4,7 @@
 	    "class" : "service\\webTwig",
 	    "parameters" : [],
 	    "tags" : [
-	        {"name" : "twig.extensions"}
+	        {"name" : "twig.extension"}
 	    ]
 	}
 }

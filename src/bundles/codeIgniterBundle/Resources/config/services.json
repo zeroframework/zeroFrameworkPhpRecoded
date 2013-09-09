@@ -1,0 +1,18 @@
+{
+	"twig.extension.codeigniter" :
+	{
+	    "class" : "service\\codeIgniterTwig",
+	    "parameters" : ["@codeigniterlibrary", "@request"],
+	    "tags" : [
+	        {"name" : "twig.extension"}
+	    ]
+	},
+    "codeigniterlibrary" :
+    {
+        "class" : "service\\codeIgniterLibrary",
+        "parameters": [],
+        "tags" : [
+            {"name" : "kernel.event", "event" : "codeigniter.loadlibrary", "method" : "onLoadLibraryCodeIgniter"}
+        ]
+    }
+}

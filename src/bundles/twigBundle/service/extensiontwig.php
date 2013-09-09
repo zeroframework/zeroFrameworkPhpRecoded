@@ -5,7 +5,7 @@ namespace service;
 class extensiontwig 
 {
 	public function onReady($eventname, $app)
-	{	
+	{
 		// Récupere le service container
 	    $container = $app->getServiceContainer();
 
@@ -17,7 +17,6 @@ class extensiontwig
 			    {
 				    if($tag["name"] == "twig.extension")
 				    {
-					
 					    $container
 						    ->get("twig")
 						    ->addExtension($container->get($servicename));

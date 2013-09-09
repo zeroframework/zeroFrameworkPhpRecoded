@@ -10,6 +10,11 @@
 class event {
          private $events = array();
 
+        public function __construct()
+        {
+            $this->addEvent("onEvent");
+        }
+
         private function addEvent($name)
         {
             $this->events[$name] = array();
@@ -35,5 +40,7 @@ class event {
              {
                     call_user_func_array($listener, func_get_args());
              }
+
+            if($name != "onEvent") $this->notify("onEvent", $name);
         }
 }
