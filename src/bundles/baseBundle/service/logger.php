@@ -16,24 +16,41 @@ class logger {
     public function __construct()
     {
 
-	    $this->file = new \SplFileObject(APP_DIRECTORY."/log.txt", "w+");
+	    try {
+            $this->file = new \SplFileObject(APP_DIRECTORY."/log.txt", "w+");
+        }
+        catch(\Exception $e)
+        {
+
+            if(PHP_SAPI == "CLI")
+            {
+                echo "Un probleme de droit sur ".APP_DIRECTORY."/log.txt est survenu \r\n";
+            }
+
+            $this->file = null;
+        }
 
 	    //$this->file->flock(\LOCK_EX);
 
-	    $this->file->fwrite("=================== Start request ".date("H:i:s")." ================\r\n");
+	    if($this->isFile()) $this->file->fwrite("=================== Start request ".date("H:i:s")." ================\r\n");
 
+    }
+
+    public function isFile()
+    {
+        return !empty($this->file);
     }
 
 	public function __destruct()
 	{
-		$this->file->fwrite("=================== End Request ===================\r\n");
+        if($this->isFile()) $this->file->fwrite("=================== End Request ===================\r\n");
 
 		//$this->file->flock(\LOCK_UN);
 	}
 
     public function info($log)
     {
-        $this->file->fwrite("[LOG] ".$log."\r\n");
+        if($this->isFile()) $this->file->fwrite("[LOG] ".$log."\r\n");
     }
 
     public function onReady()

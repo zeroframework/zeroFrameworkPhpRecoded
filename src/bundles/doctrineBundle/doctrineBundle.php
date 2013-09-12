@@ -25,6 +25,8 @@ use \Doctrine\Common\Persistence\Mapping\Driver\MappingDriverChain,
     \Doctrine\Common\Cache\ApcCache,
     \Doctrine\Common\EventManager;
 
+use \Doctrine\Common\Annotations\AnnotationRegistry;
+
 class doctrineBundle
 {
     /**
@@ -53,6 +55,26 @@ class doctrineBundle
     'namespace' => 'MyWebsite\Entity', // your classes namespace
     )),
     ));
+
+
+     Example de configuration pour la console doctrine
+
+    require __DIR__.'/../vendor/autoload.php';
+    include __DIR__."/../zfboot.php";
+
+    use Doctrine\DBAL\Tools\Console\Helper\ConnectionHelper;
+    use Doctrine\ORM\Tools\Console\Helper\EntityManagerHelper;
+    use Doctrine\ORM\Tools\Console\ConsoleRunner;
+    use Symfony\Component\Console\Helper\HelperSet;
+
+    $container = $app->getServiceContainer();
+
+    $helperSet = new HelperSet(array(
+    "db" => new ConnectionHelper($container["db.orm.em"]->getConnection()),
+    "em" => new EntityManagerHelper($container["db.orm.em"])
+    ));
+
+    ConsoleRunner::run($helperSet);
      */
 
 
@@ -163,6 +185,7 @@ class doctrineBundle
       self::loadDoctrineConfiguration($app);
       self::setOrmDefaults($app);
       self::loadDoctrineOrm($app);
+
   }
 
     private static function loadDoctrineOrm(serviceContainer $app)

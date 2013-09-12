@@ -52,9 +52,9 @@ class codeIgniterTwig extends \Twig_Extension
        return "http://test.adibox.com/";
     }
 
-    public function site_url()
+    public function site_url($path = "")
     {
-       return "http://test.adibox.com/";
+       return "http://test.adibox.com/".$path;
     }
 
     public function getFilters()
@@ -85,7 +85,13 @@ class codeIgniterTwig extends \Twig_Extension
 
     public function anchor($route, $content, $options = array())
     {
-	return "<a href='$route'>$content</a>";
+        $defaultsOption = array(
+            "class" => "",
+        );
+
+        $options = array_merge($defaultsOption, $options);
+
+	    return "<a href='".$this->base_url().$route."' class='".implode(" ", $options)."'>$content</a>";
     }
 
     public function trans($name)
