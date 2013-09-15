@@ -13,9 +13,9 @@ Minimum néscésaire
 $serviceContainer["db.options"] = array(
     'driver'    => 'pdo_mysql',
     'host'      => 'localhost',
-    'dbname'    => 'rnb',
-    'user'      => 'root',
-    'password'  => 'AdiPass14',
+    'dbname'    => '',
+    'user'      => '',
+    'password'  => '',
     'charset'   => 'utf8',
     );
 
