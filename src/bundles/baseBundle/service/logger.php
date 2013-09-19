@@ -9,7 +9,9 @@
 
 namespace service;
 
-class logger {
+use \Psr\Log\AbstractLogger;
+
+class logger extends AbstractLogger {
 
 	private $file;
 
@@ -26,13 +28,14 @@ class logger {
             {
                 echo "Un probleme de droit sur ".APP_DIRECTORY."/log.txt est survenu \r\n";
             }
-
             $this->file = null;
         }
 
 	    //$this->file->flock(\LOCK_EX);
 
-	    if($this->isFile()) $this->file->fwrite("=================== Start request ".date("H:i:s")." ================\r\n");
+	    if($this->isFile()) {
+            $this->file->fwrite("=================== Start request ".date("H:i:s")." ================\r\n");
+        }
 
     }
 
@@ -48,9 +51,9 @@ class logger {
 		//$this->file->flock(\LOCK_UN);
 	}
 
-    public function info($log)
+    public function log($logLevel, $message, array $context = array())
     {
-        if($this->isFile()) $this->file->fwrite("[LOG] ".$log."\r\n");
+        if($this->isFile()) $this->file->fwrite("[LOG $logLevel] ".$message."\r\n");
     }
 
     public function onReady()

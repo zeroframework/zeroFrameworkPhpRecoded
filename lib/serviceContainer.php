@@ -116,5 +116,20 @@ class serviceContainer implements ArrayAccess {
         };
     }
 
+    public function extend($name, Closure $callable)
+    {
+        if(!$this->has($name))
+        {
+            throw new InvalidArgumentException("Service $name not definedd");
+        }
+
+        $factory = $this->services[$name];
+
+        return $this->services[$name] = function($c) use ($callable, $factory)
+        {
+          return $callable($factory($c), $c);
+        };
+    }
+
     public function get($name) { return $this->__get($name); }
 }

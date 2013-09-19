@@ -29,6 +29,7 @@ class codeIgniterTwig extends \Twig_Extension
             'local_to_gmt' => new \Twig_Function_Function("local_to_gmt"),
             'get_user_time' => new \Twig_Function_Function("get_user_time"),
             'date' => new \Twig_Function_Function("date"),
+            'getListImage' => new \Twig_Function_Function("getListImage"),
         );
     }
 
@@ -70,7 +71,7 @@ class codeIgniterTwig extends \Twig_Extension
            "THEME_FOLDER" => "d",
 	        "uri" => array("segment" => $this->getSegments()),
             "app" => array(
-                "request" => $this->request
+                "request" => $this->request,
             )
         );
     }

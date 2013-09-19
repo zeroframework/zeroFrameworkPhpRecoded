@@ -2,6 +2,11 @@
 
 class baseBundle {
 
+    /**
+     * use         "psr/log" : "dev-master"
+     * Important pour la norme psr sur les application de log
+     */
+
     // Enregistre le bundle
     public static function register($app)
     {

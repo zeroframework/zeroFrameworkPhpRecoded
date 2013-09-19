@@ -33,6 +33,12 @@ class doctrineBundle
      * Example de configuration
      *
      * Minimum néscésaire
+     *
+     * "symfony/doctrine-bridge": "2.4.*@dev"
+     *  "doctrine/orm": ">= 2.3.0, < 2.4.0-beta",
+     * "doctrine/common": ">= 2.3.0, < 2.4.0-beta",
+     * "doctrine/dbal": ">= 2.3.0, < 2.4.0-beta",
+     *
      * $serviceContainer["db.options"] = array(
     'driver'    => 'pdo_mysql',
     'host'      => 'localhost',
@@ -185,7 +191,6 @@ class doctrineBundle
       self::loadDoctrineConfiguration($app);
       self::setOrmDefaults($app);
       self::loadDoctrineOrm($app);
-
   }
 
     private static function loadDoctrineOrm(serviceContainer $app)

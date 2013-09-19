@@ -7,6 +7,10 @@ use Symfony\Component\Form\Extension\HttpFoundation\HttpFoundationExtension;
 use Symfony\Component\Form\Extension\Validator\ValidatorExtension as FormValidatorExtension;
 use Symfony\Component\Form\Forms;
 
+use lib\ManagerRegistry;
+
+use Symfony\Bridge\Doctrine\Form\DoctrineOrmExtension;
+
 class symfonyFormBundle
 {
     public static function register($app)
@@ -72,6 +76,23 @@ class symfonyFormBundle
 
             return new DefaultCsrfProvider($app['form.secret']);
         });
+
+        if($app->has("form.factory"))
+        {
+            self::loadDoctrineFormExtension($app);
+        }
+    }
+
+
+    private static function loadDoctrineFormExtension($app)
+    {
+        $app['form.extensions'] = $app->share($app->extend('form.extensions', function ($extensions, $app) {
+            $managerRegistry = new ManagerRegistry(null, array(), array('db.orm.em'), null, null, (!$app->has("doctrine_orm.proxies_namespace")) ? '\Doctrine\ORM\Proxy\Proxy' : $app['doctrine_orm.proxies_namespace']);
+            $managerRegistry->setContainer($app);
+            $extensions[] = new DoctrineOrmExtension($managerRegistry);
+
+            return $extensions;
+        }));
     }
 }
 ?>
