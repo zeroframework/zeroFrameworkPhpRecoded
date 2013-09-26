@@ -31,12 +31,14 @@ class twigBundle
 		
 		$app["charset"] = "UTF-8";
 	
-		$app['twig.options'] = array();
+		if(!$app->has("twig.options")) $app['twig.options'] = array();
         $app['twig.form.templates'] = array('form_div_layout.html.twig');
-        $app['twig.path'] = array(APP_DIRECTORY."/html/");
+        //$app['twig.path'] = array(APP_DIRECTORY."/html/");
         $app['twig.templates'] = array();
 
         $app['twig'] = $app->share(function ($app) use($core) {
+
+            if(!$app->has("twig.path")) throw new \Exception("unknow twig.path");
 
             $app['twig.options'] = array_replace(
                 array(
