@@ -68,6 +68,35 @@ class application {
         $serviceContainer->merge($config);
 ?>
 
+config application
+------------------
+
+{
+    "debug" : true,
+    "facebook.config" :
+    {
+        "appId" : "",
+        "secret" : ""
+    },
+    "db.options" :
+    {
+        "driver"    : "pdo_mysql",
+        "host"      : "localhost",
+        "dbname"    : "",
+        "user"      : "",
+        "password"  : "",
+        "charset"   : "utf8"
+    },
+    "mailer.options" :
+    {
+        "server"  : "smtp.gmail.com",
+        "port"     : 465,
+        "security" : "ssl",
+        "username" : "",
+        "password" : ""
+    }
+}
+
 bootloader
 
 <?php
