@@ -1,0 +1,10 @@
+{
+    "gregwar.image" :
+    {
+        "class" : "service\\gregwarImage",
+        "parameters" : ["@gregwarImage.config", "@service_container"],
+        "tags" : [
+            {"name" : "twig.extension"}
+        ]
+    }
+}
