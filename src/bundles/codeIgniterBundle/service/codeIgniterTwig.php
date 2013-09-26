@@ -30,7 +30,23 @@ class codeIgniterTwig extends \Twig_Extension
             'get_user_time' => new \Twig_Function_Function("get_user_time"),
             'date' => new \Twig_Function_Function("date"),
             'getListImage' => new \Twig_Function_Function("getListImage"),
+            'get_user_by_id' => new \Twig_Function_Function("get_user_by_id"),
+            'get_currency_code' => new \Twig_Function_Function("get_currency_code"),
+            'is_logged' => new \Twig_Function_Method($this, "is_logged"),
+            'user' => new \Twig_Function_Method($this, "user"),
         );
+    }
+
+    public function user()
+    {
+        return $this->load("dx_auth")->get_user();
+    }
+
+    public function is_logged()
+    {
+        //&& (!$this->facebook_lib->logged_in())
+
+        return ($this->load("dx_auth")->is_logged_in());
     }
 
     public function load($name)
@@ -72,7 +88,8 @@ class codeIgniterTwig extends \Twig_Extension
 	        "uri" => array("segment" => $this->getSegments()),
             "app" => array(
                 "request" => $this->request,
-            )
+            ),
+            "baseurl" => "http://test.adibox.com/",
         );
     }
 
@@ -97,6 +114,10 @@ class codeIgniterTwig extends \Twig_Extension
 
     public function trans($name)
     {
+        $translated = translate($name);
+
+        if($translated != $name) return $translated;
+
         return $name;
     }
 

@@ -1,0 +1,7 @@
+{
+    "facebook" :
+    {
+        "class" : "Facebook",
+        "parameters" : ["@facebook.config"]
+    }
+}
