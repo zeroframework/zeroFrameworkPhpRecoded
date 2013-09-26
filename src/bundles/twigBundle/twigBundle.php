@@ -30,7 +30,6 @@ class twigBundle
         $eventManager = $core->getEventManager();
 		
 		$app["charset"] = "UTF-8";
-		$app["debug"] = true;
 	
 		$app['twig.options'] = array();
         $app['twig.form.templates'] = array('form_div_layout.html.twig');
