@@ -37,7 +37,7 @@ class gregwarImage extends \Twig_Extension {
 
     public function image($path)
     {
-        return $this-open($path);
+        return $this->open($path);
     }
 
     public function newImage($width, $height)
@@ -60,13 +60,15 @@ class gregwarImage extends \Twig_Extension {
 
         $handler_class = $this->options["handler_class"];
 
+        $web_dir = realpath($this->options["web_dir"]);
+
         $image = new $handler_class($file, $w, $h, null);
 
         $image->setCacheDir($this->options["cache_dir"]);
 
-        $image->setFileCallback(function($file)
+        $image->setFileCallback(function($file) use ($web_dir)
         {
-           return $file;
+           return str_replace($web_dir, "", realpath($file));
         });
 
         return $image;

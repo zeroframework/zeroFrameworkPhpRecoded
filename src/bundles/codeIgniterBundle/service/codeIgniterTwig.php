@@ -28,6 +28,7 @@ class codeIgniterTwig extends \Twig_Extension
             'timezone_menu' => new \Twig_Function_Function("timezone_menu", array('is_safe' => array('html'))),
             'local_to_gmt' => new \Twig_Function_Function("local_to_gmt"),
             'get_user_time' => new \Twig_Function_Function("get_user_time"),
+            'getListImage' => new \Twig_Function_Function("getListImage"),
             'date' => new \Twig_Function_Function("date"),
             'getListImage' => new \Twig_Function_Function("getListImage"),
             'get_user_by_id' => new \Twig_Function_Function("get_user_by_id"),

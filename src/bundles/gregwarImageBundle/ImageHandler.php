@@ -40,7 +40,9 @@ class ImageHandler extends Image
     {
         $callback = $this->fileCallback;
 
-        if (null === $callback || substr($filename, 0, 1) == '/')
+        if (null === $callback
+          //  || substr($filename, 0, 1) == '/'
+        )
             return $filename;
 
         return $callback($filename);
