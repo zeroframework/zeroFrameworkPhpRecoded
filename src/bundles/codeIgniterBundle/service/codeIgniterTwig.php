@@ -6,11 +6,13 @@ class codeIgniterTwig extends \Twig_Extension
 {
     private $codeIgniterLibrary;
     private $request;
+    private $container;
 
-    public function __construct($codeIgniterLibrary, $request)
+    public function __construct($codeIgniterLibrary, $request, $container)
     {
         $this->codeIgniterLibrary = $codeIgniterLibrary;
         $this->request = $request;
+        $this->container = $container;
     }
 
     public function getFunctions()
@@ -113,11 +115,18 @@ class codeIgniterTwig extends \Twig_Extension
 	    return "<a href='".$this->base_url().$route."' class='".implode(" ", $options)."'>$content</a>";
     }
 
-    public function trans($name)
+    public function trans($name, $data = array(), $domaine = "messages")
     {
         $translated = translate($name);
 
         if($translated != $name) return $translated;
+
+        if($this->container->has("translator"))
+        {
+            $translated = $this->container->get("translator")->trans($name, $data, $domaine);
+
+            if($translated != $name) return $translated;
+        }
 
         return $name;
     }

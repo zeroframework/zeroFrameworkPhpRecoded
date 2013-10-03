@@ -2,7 +2,7 @@
 	"twig.extension.codeigniter" :
 	{
 	    "class" : "service\\codeIgniterTwig",
-	    "parameters" : ["@codeigniterlibrary", "@request"],
+	    "parameters" : ["@codeigniterlibrary", "@request", "@service_container"],
 	    "tags" : [
 	        {"name" : "twig.extension"}
 	    ]
