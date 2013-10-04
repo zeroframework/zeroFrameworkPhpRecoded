@@ -1,6 +1,6 @@
 <?php
 
-use Gregwar\ImageBundle\Image;
+use Gregwar\Image\Image;
 
 /**
  * Image manipulation class
