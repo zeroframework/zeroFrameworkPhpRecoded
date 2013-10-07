@@ -37,7 +37,13 @@ class codeIgniterTwig extends \Twig_Extension
             'get_currency_code' => new \Twig_Function_Function("get_currency_code"),
             'is_logged' => new \Twig_Function_Method($this, "is_logged"),
             'user' => new \Twig_Function_Method($this, "user"),
+            "assets_url" => new \Twig_Function_Method($this, "assets_url"),
         );
+    }
+
+    public function assets_url($file)
+    {
+        return $this->base_url("")."/assets/".$file;
     }
 
     public function user()

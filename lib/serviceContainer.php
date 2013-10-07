@@ -108,6 +108,11 @@ class serviceContainer implements ArrayAccess {
          };
     }
 
+    public function all($onlykeys = true, $raw = true)
+    {
+        return array_keys($this->services);
+    }
+
     public function protect(Closure $serviceHandle)
     {
         return function($c) use ($serviceHandle)

@@ -31,6 +31,21 @@ class application {
 
         $serviceContainer = $app->getServiceContainer();
 
+        $configurationDirectory = __DIR__.DIRECTORY_SEPARATOR."Resources".DIRECTORY_SEPARATOR."config";
+
+        $config = $app->getConf()->loadConfigurationFile("config_".$app->getName(), $configurationDirectory);
+
+        $importConfigurations = $config["import_configurations"];
+
+        foreach($importConfigurations as $file)
+        {
+            $serviceContainer->merge($app->getConf()->loadConfigurationFile($file, $configurationDirectory));
+        }
+
+        $serviceContainer->merge($config);
+
+        $serviceContainer = $app->getServiceContainer();
+
         $serviceContainer["debug"] = true;
 
         $serviceContainer["db.options"] = array(
@@ -185,9 +200,10 @@ class app Extends Core implements interfaces\event, interfaces\core {
 
     private static $instance;
 
-    public function __construct()
+    public function __construct($name)
     {
-	self::$instance = $this;
+	    self::$instance = $this;
+        $this->setName($name);
     }
 
     public static function getInstance()
@@ -254,7 +270,7 @@ class app Extends Core implements interfaces\event, interfaces\core {
     }
 }
 
-$app = new app();
+$app = new app("dev");
 
 // On va charger quelque libraire indépante dont l'autoloader
 // On récupere la liste les librairies a charger dans un tableau

@@ -33,7 +33,7 @@
       // Retourne l'instance de l'eventManager
       public function getEventManager()
       {
-            if($this->eventManager == null) $this->setEventManager(new eventManager());
+            if($this->eventManager === null) $this->setEventManager(new eventManager());
 
             return $this->eventManager;
       }

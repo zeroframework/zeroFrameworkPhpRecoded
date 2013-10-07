@@ -17,13 +17,19 @@ class extensiontwig
 			    {
 				    if($tag["name"] == "twig.extension")
 				    {
-					    $container
-						    ->get("twig")
-						    ->addExtension($container->get($servicename));
-					
+                        $extensionname = $container->get($servicename)->getName();
+
+                        if(!$container->get("twig")->hasExtension($extensionname))
+                        {
+                            $container->get("twig")
+                                ->addExtension($container->get($servicename));
+                        }
+
 				    }
 			    }
 		    }
 		}
+
+        $app->getEventManager()->notify("onExtensionTwigLoaded");
 	}
 }

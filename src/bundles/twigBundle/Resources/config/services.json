@@ -4,7 +4,7 @@
 	    "class" : "service\\extensiontwig",
 	    "parameters" : [],
 	    "tags" : [
-	        {"name" : "kernel.event", "event" : "onReady", "method" : "onReady"}
+	        {"name" : "kernel.event", "event" : "onReady", "method" : "onReady", "priority" : 1}
 	    ]
 	}
 }

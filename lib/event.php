@@ -8,6 +8,12 @@
  */
 
 class event {
+        const PRIORITY_LOW = 3;
+        const PRIORITY_MEDIUM = 2;
+        const PRIORITY_HIGH = 1;
+
+
+
          private $events = array();
 
         public function __construct()
@@ -17,7 +23,13 @@ class event {
 
         private function addEvent($name)
         {
-            $this->events[$name] = array();
+            if(isset($this->events[$name])) return;
+
+            $this->events[$name] = array(
+                self::PRIORITY_LOW => array(),
+                self::PRIORITY_MEDIUM => array(),
+                self::PRIORITY_HIGH => array(),
+            );
         }
 
         private function hasEvent($name)
@@ -25,20 +37,25 @@ class event {
             return isset($this->events[$name]);
         }
 
-        public function listenEvent($name, $handle)
+        public function listenEvent($name, $handle, $priority = self::PRIORITY_LOW)
         {
             if(!$this->hasEvent($name)) $this->addEvent($name);
 
-            $this->events[$name][] = $handle;
+            $this->events[$name][$priority][] = $handle;
         }
 
         public function notify($name)
         {
 	        if(!$this->hasEvent($name)) $this->addEvent($name);
 
-             foreach($this->events[$name] as $listener)
+             ksort($this->events[$name]);
+
+             foreach($this->events[$name] as $listeners)
              {
-                    call_user_func_array($listener, func_get_args());
+                 foreach($listeners as $listener)
+                 {
+                     call_user_func_array($listener, func_get_args());
+                 }
              }
 
             if($name != "onEvent") $this->notify("onEvent", $name);
