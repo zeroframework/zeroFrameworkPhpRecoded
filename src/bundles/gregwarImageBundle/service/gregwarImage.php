@@ -68,6 +68,7 @@ class gregwarImage extends \Twig_Extension {
 
         $image->setFileCallback(function($file) use ($web_dir)
         {
+           //echo "<BR>";
            return str_replace($web_dir, "", realpath($file));
         });
 

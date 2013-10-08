@@ -52,7 +52,8 @@ class ImageHandler extends Image
     {
         try{
             return parent::save($file, $type, $quality);
-        } catch(\Exception $e) {
+        }
+        catch(\Exception $e) {
             if($this->throwException) {
                 throw $e;
             }

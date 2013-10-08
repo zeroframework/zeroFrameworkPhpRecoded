@@ -20,7 +20,7 @@ class codeIgniterTwig extends \Twig_Extension
         return array(
             'anchor' => new \Twig_Function_Method($this, 'anchor', array('is_safe' => array('html'))),
             'trans' => new \Twig_Function_Method($this, 'trans', array('is_safe' => array('html'))),
-	    'translate' => new \Twig_Function_Method($this, 'translate', array('is_safe' => array('html'))),
+	        'translate' => new \Twig_Function_Method($this, 'translate', array('is_safe' => array('html'))),
             'css_url' => new \Twig_Function_Method($this, 'css_url', array('is_safe' => array('html'))),
             'base_url' => new \Twig_Function_Method($this, 'base_url', array('is_safe' => array('html'))),
             'site_url' => new \Twig_Function_Method($this, 'site_url', array('is_safe' => array('html'))),
@@ -32,23 +32,18 @@ class codeIgniterTwig extends \Twig_Extension
             'get_user_time' => new \Twig_Function_Function("get_user_time"),
             'getListImage' => new \Twig_Function_Function("getListImage"),
             'date' => new \Twig_Function_Function("date"),
-            'getListImage' => new \Twig_Function_Function("getListImage"),
             'get_user_by_id' => new \Twig_Function_Function("get_user_by_id"),
             'get_currency_code' => new \Twig_Function_Function("get_currency_code"),
             'is_logged' => new \Twig_Function_Method($this, "is_logged"),
-            'user' => new \Twig_Function_Method($this, "user"),
+            'user' => new \Twig_Function_Method($this, "getUser"),
             "assets_url" => new \Twig_Function_Method($this, "assets_url"),
+            "forward" => new \Twig_Function_Method($this, "forward"),
         );
     }
 
     public function assets_url($file)
     {
         return $this->base_url("")."/assets/".$file;
-    }
-
-    public function user()
-    {
-        return $this->load("dx_auth")->get_user();
     }
 
     public function is_logged()
@@ -66,6 +61,13 @@ class codeIgniterTwig extends \Twig_Extension
     public function form_error($name)
     {
 
+    }
+
+    public function forward($controlller, $method, $parameters = array())
+    {
+        $controllerInstance = new $controlller();
+
+        call_user_func_array(array($controllerInstance, $method), $parameters);
     }
 
     public function css_url()
@@ -95,9 +97,6 @@ class codeIgniterTwig extends \Twig_Extension
         return array(
            "THEME_FOLDER" => "d",
 	        "uri" => array("segment" => $this->getSegments()),
-            "app" => array(
-                "request" => $this->request,
-            ),
             "baseurl" => "http://test.adibox.com/",
         );
     }

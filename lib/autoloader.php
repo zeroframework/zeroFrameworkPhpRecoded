@@ -4,6 +4,12 @@ class autoloader {
      private static $instance = null;
      private $basesDirectory = array();
 
+     private $cache = array();
+
+     private $cacheUpdated = false;
+
+     private $strictMode = false;
+
      public function __construct()
      {
 
@@ -29,6 +35,16 @@ class autoloader {
     private function getBasesDirectory()
     {
         return $this->basesDirectory;
+    }
+
+    public function strict()
+    {
+        $this->strictMode = true;
+    }
+
+    public function isStrict()
+    {
+        return $this->strictMode;
     }
 
     public function addBaseDirectory($baseDirectory)
@@ -58,24 +74,44 @@ class autoloader {
            return $instance;
      }
 
+    public function fillCache($file)
+    {
+        if(!$this->cacheUpdated) return;
+
+        file_put_contents($file, json_encode($this->cache));
+    }
+
+    public function loadCache($file)
+    {
+        $this->cache = json_decode(file_get_contents($file), true);
+    }
+
      public function load($className)
      {
+         if(isset($this->cache[$className])) {
+             include($this->cache[$className]);
+             return;
+         }
+
          foreach($this->basesDirectory as $baseDirectory)
          {
-             foreach(new DirectoryIterator($baseDirectory) as $file)
-             {
-                $path = $file->getPath()."/".$className.".php";
+            // foreach(new DirectoryIterator($baseDirectory) as $file)
+             //{
+                $path = $baseDirectory."/".$className.".php";
 				$path = str_replace(array("/","\\"), array(DIRECTORY_SEPARATOR, DIRECTORY_SEPARATOR), $path);
                  $file = new SplFileInfo($path);
                  if($file->isFile())
                  {
+                     $this->cache[$className] = $file->getRealPath();
+                     $this->cacheUpdated = true;
                      include($file->getRealPath());
-return;
+
+                     return;
                  }
-             }
+             //}
          }
 
-//throw new \Exception("Autoloader doesn't load class $className");
+        if($this->isStrict())  new \Exception("Autoloader doesn't load class $className");
      }
 }
 ?>
