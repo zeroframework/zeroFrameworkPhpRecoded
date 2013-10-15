@@ -378,6 +378,12 @@
 {% endspaceless %}
 {% endblock widget_attributes %}
 
+{% block attributes %}
+    {% spaceless %}
+    {% for attrname, attrvalue in attr %}{% if attrname in ['placeholder', 'title'] %}{{ attrname }}="{{ attrvalue|trans({}, translation_domain) }}" {% else %}{{ attrname }}="{{ attrvalue }}" {% endif %}{% endfor %}
+    {% endspaceless %}
+{% endblock %}
+
 {% block widget_container_attributes %}
 {% spaceless %}
     {% if id is not empty %}id="{{ id }}" {% endif %}

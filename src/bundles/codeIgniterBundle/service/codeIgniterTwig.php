@@ -38,7 +38,73 @@ class codeIgniterTwig extends \Twig_Extension
             'user' => new \Twig_Function_Method($this, "getUser"),
             "assets_url" => new \Twig_Function_Method($this, "assets_url"),
             "forward" => new \Twig_Function_Method($this, "forward"),
+            "get_user_times" => new \Twig_Function_Function("get_user_times"),
+            "get_list_by_id" => new \Twig_Function_Function("get_list_by_id"),
+            "get_currency_symbol" => new \Twig_Function_Function("get_currency_symbol"),
+            "get_currency_value" => new \Twig_Function_Function("get_currency_value"),
         );
+    }
+
+    public function relativeDate($date = null, $limit = null)
+    {
+        if($date === null) return;
+
+        if(is_string($date))
+        {
+            $date = new \DateTime($date);
+        }
+
+        $date_a_comparer = $date;
+        $date_actuelle = new \DateTime("now");
+
+        $intervalle = $date_a_comparer->diff($date_actuelle);
+
+        if ($date_a_comparer > $date_actuelle)
+        {
+            $prefixe = 'dans ';
+        }
+        else
+        {
+            $prefixe = 'il y a ';
+        }
+
+        $ans = $intervalle->format('%y');
+        $mois = $intervalle->format('%m');
+        $jours = $intervalle->format('%d');
+        $heures = $intervalle->format('%h');
+        $minutes = $intervalle->format('%i');
+        $secondes = $intervalle->format('%s');
+
+        if ($ans != 0)
+        {
+            $relative_date = $prefixe . $ans . ' an' . (($ans > 1) ? 's' : '');
+            if ($mois >= 6) $relative_date .= ' et demi';
+        }
+        elseif ($mois != 0)
+        {
+            $relative_date = $prefixe . $mois . ' mois';
+            if ($jours >= 15) $relative_date .= ' et demi';
+        }
+        elseif ($jours != 0)
+        {
+            $relative_date = $date->format("d-m-Y H:i:s");
+
+            //$relative_date = $prefixe . $jours . ' jour' . (($jours > 1) ? 's' : '');
+        }
+        elseif ($heures != 0)
+        {
+            $relative_date = $prefixe . $heures . ' heure' . (($heures > 1) ? 's' : '');
+        }
+        elseif ($minutes != 0)
+        {
+            $relative_date = $prefixe . $minutes . ' minute' . (($minutes > 1) ? 's' : '');
+        }
+        else
+        {
+            $relative_date = $prefixe . ' quelques secondes';
+        }
+
+        return $relative_date;
     }
 
     public function assets_url($file)
@@ -82,13 +148,14 @@ class codeIgniterTwig extends \Twig_Extension
 
     public function site_url($path = "")
     {
-       return "http://test.adibox.com/".$path;
+       return "http://test.adibox.com/".(($this->container->get("debug")) ? "index_dev.php/" : "").$path;
     }
 
     public function getFilters()
     {
         return array(
             new \Twig_SimpleFilter('trans', array($this, 'trans')),
+            new \Twig_SimpleFilter("relativeDate", array($this, "relativeDate")),
         );
     }
 
