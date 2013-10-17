@@ -1,0 +1,10 @@
+{
+    "tag.event.doctrine" :
+    {
+        "class" : "service\\DoctrineEventTag",
+        "parameters" : [],
+        "tags" : [
+            {"name" : "kernel.event", "event" : "onReady", "method" : "onReady", "priority" : 1}
+        ]
+    }
+}

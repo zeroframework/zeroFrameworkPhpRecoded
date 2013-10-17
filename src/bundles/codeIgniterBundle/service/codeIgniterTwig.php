@@ -23,6 +23,7 @@ class codeIgniterTwig extends \Twig_Extension
 	        'translate' => new \Twig_Function_Method($this, 'translate', array('is_safe' => array('html'))),
             'css_url' => new \Twig_Function_Method($this, 'css_url', array('is_safe' => array('html'))),
             'base_url' => new \Twig_Function_Method($this, 'base_url', array('is_safe' => array('html'))),
+            'image_url' => new \Twig_Function_Method($this, 'image_url'),
             'site_url' => new \Twig_Function_Method($this, 'site_url', array('is_safe' => array('html'))),
             'load' => new \Twig_Function_Method($this, 'load', array('is_safe' => array('html'))),
             'form_error' => new \Twig_Function_Method($this, 'form_error', array('is_safe' => array('html'))),
@@ -109,7 +110,7 @@ class codeIgniterTwig extends \Twig_Extension
 
     public function assets_url($file)
     {
-        return $this->base_url("")."/assets/".$file;
+        return $this->base_url("")."assets/".$file;
     }
 
     public function is_logged()
@@ -144,6 +145,11 @@ class codeIgniterTwig extends \Twig_Extension
     public function base_url()
     {
        return "http://test.adibox.com/";
+    }
+
+    public function image_url()
+    {
+        return "http://test.adibox.com/";
     }
 
     public function site_url($path = "")
