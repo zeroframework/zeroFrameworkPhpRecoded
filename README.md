@@ -3,6 +3,33 @@ zeroFrameworkPhpRecoded
 
 version du zeroframework réecrite pour la formation d'une personne au dév de a a z d'un framework light
 
+Roadmap
+-------
+
+Crée plusieur niveaux d'apprentisage en permmetant l'utilisation du framework a partir de rien, explication
+
+niveaux 1 : pas de php, vue simplement
+
+niveaux 2 : php avec variable globale transmit directement à la vue
+
+niveaux 3 : php avec tableau $html dont les variables sont transmis directement a la vue
+
+niveaux 4: function php main qui retourne un tableau qui est transmis a la vue
+
+niveaux 5: function php nommé du nom de l'action suffixé de 'Action' pouvant recevoir des parametre et retournant un tableau qui est transmis a la vue
+
+niveaux 6 : function php nommé du nom de l'action suffixé de 'Action' pouvant recevoir des parametre et retorunant une instance de responce crée avec ZF:renderHtml permettant de choisir la vue qui sera charge
+
+niveaux 7 : classe php instancié avec simplement les propriété publique transmisse a la vue
+
+niveaux 8 : classe php instancie avec simplement la propriété $html qui est un tableau qui sera transmit a la vue
+
+niveaux 9 : classe php instancie avec une méthode nommé du nom de l'action suffixé de 'Action' pouvant recevoir des parametre et retournant un tableau qui sera transmise a la vue portant le nom de l'action suffixé de .html.twig
+
+niveaux 10 : classe php instancie avec une méthode nommé du nom de l'action suffixé de 'Action' pouvant recevoir des parametre et retorunant une instance de responce crée avec ZF:renderHtml permettant de choisir la vue qui sera charge
+
+niveaux 11 : création de route permettant de mapper une url à une action d'une classe
+
 
 Example de configuration
 ------------------------
