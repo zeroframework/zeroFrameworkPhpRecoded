@@ -1,0 +1,53 @@
+<?php
+
+use CalendR\Calendar;
+use CalendR\Event\Manager;
+use CalendR\Extension\Twig\CalendRExtension;
+
+class calendrBundle
+{
+    /**
+     * {@inheritdoc}
+     */
+    public function register($core)
+    {
+        $app = $core->getServiceContainer();
+
+        $app['calendr'] = $app->share(function($app) {
+            $calendr = new Calendar();
+            $calendr->setEventManager($app['calendr.event_manager']);
+
+            return $calendr;
+        });
+
+        $app['calendr.event_manager'] = $app->share(function($app) {
+            return new Manager(
+                isset($app['calendr.event.providers']) ? $app['calendr.event.providers']: array(),
+                isset($app['calendr.event.collection.instantiator']) ? $app['calendr.event.collection.instantiator']: null
+            );
+        });
+
+        $core->getEventManager()->listenEvent("onReady", array("calendrBundle", "boot"), event::PRIORITY_MEDIUM);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public static function boot($eventname, $core)
+    {
+
+        $app = $core->getServiceContainer();
+
+        if (class_exists('Twig_Environment')) {
+            $extension = new CalendRExtension($app['calendr']);
+            if (isset($app['calendr.twig']) && 'Twig_Environment' == get_class($app['calendr.twig'])) {
+                $app['calendr.twig']->addExtension($extension);
+            } elseif (isset($app['twig']) && 'Twig_Environment' == get_class($app['twig'])) {
+                $app['twig']->addExtension($extension);
+            }
+        }
+
+    }
+}
+
+?>

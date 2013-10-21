@@ -32,7 +32,7 @@ class twigBundle
 		$app["charset"] = "UTF-8";
 	
 		if(!$app->has("twig.options")) $app['twig.options'] = array();
-        $app['twig.form.templates'] = array('form_div_layout.html.twig');
+        //$app['twig.form.templates'] = array('form_div_layout.html.twig');
         //$app['twig.path'] = array(APP_DIRECTORY."/html/");
         $app['twig.templates'] = array();
 

@@ -1,0 +1,96 @@
+{% extends "form_div_layout.html.twig" %}
+
+{# make the form fragment customization #}
+{% block form_row %}
+    {% spaceless %}
+        <div class="form-group">
+            {{ form_label(form, null, {"label_attr" : {"class" : "col-lg-2 control-label"}}) }}
+            {{ form_errors(form) }}
+            <div class="col-lg-10">
+                 {{ form_widget(form) }}
+            </div>
+        </div>
+    {% endspaceless %}
+{% endblock form_row %}
+
+{% block choice_widget_collapsed %}
+    {% spaceless %}
+        {% set attr = attr|merge({ 'class': (attr.class|default('') ~ ' form-control')|trim }) %}
+
+        <select {{ block('widget_attributes') }}{% if multiple %} multiple="multiple"{% endif %}>
+            {% if empty_value is not none %}
+                <option {% if required %} disabled="disabled"{% if value is empty %} selected="selected"{% endif %}{% else %} value=""{% endif %}>{{ empty_value|trans({}, translation_domain) }}</option>
+            {% endif %}
+            {% if preferred_choices|length > 0 %}
+                {% set options = preferred_choices %}
+                {{ block('choice_widget_options') }}
+                {% if choices|length > 0 and separator is not none %}
+                    <option disabled="disabled">{{ separator }}</option>
+                {% endif %}
+            {% endif %}
+            {% set options = choices %}
+            {{ block('choice_widget_options') }}
+        </select>
+    {% endspaceless %}
+{% endblock choice_widget_collapsed %}
+
+{% block form_widget_simple %}
+    {% spaceless %}
+        {% if simple_col is defined %}
+            <div class="col-lg-{{ simple_col }}">
+        {% endif %}
+
+        {% set type = type|default('text') %}
+        {% set attr = attr|merge({ 'class': (attr.class|default('') ~ ' form-control')|trim }) %}
+
+        <input type="{{ type }}" {{ block('widget_attributes') }} {% if value is not empty %}value="{{ value }}" {% endif %}/>
+
+        {% if simple_col is defined %}
+            </div>
+        {% endif %}
+    {% endspaceless %}
+{% endblock form_widget_simple %}
+
+{% block textarea_widget %}
+    {% spaceless %}
+        {% set attr = attr|merge({ 'class': (attr.class|default('') ~ ' form-control')|trim }) %}
+
+        <textarea {{ block('widget_attributes') }}>{{ value }}</textarea>
+    {% endspaceless %}
+{% endblock textarea_widget %}
+
+{% block checkbox_row %}
+    {% spaceless %}
+        <div class="form-group">
+            <div class="col-lg-offset-2 col-lg-10">
+                <div class="checkbox">
+                    <label>
+                        {{ form_widget(form) }} {{ label }}
+                    </label>
+                </div>
+            </div>
+        </div>
+    {% endspaceless %}
+{% endblock checkbox_row %}
+
+{% block attributes %}
+    {% spaceless %}
+        {% for attrname, attrvalue in attr %}{% if attrname in ['placeholder', 'title'] %}{{ attrname }}="{{ attrvalue|trans({}, translation_domain) }}" {% else %}{{ attrname }}="{{ attrvalue }}" {% endif %}{% endfor %}
+    {% endspaceless %}
+{% endblock %}
+
+{% block choice_widget_options %}
+    {% spaceless %}
+        {% for group_label, choice in options %}
+            {% if choice is iterable %}
+                <optgroup label="{{ group_label|trans({}, translation_domain) }}">
+                    {% set options = choice %}
+                    {{ block('choice_widget_options') }}
+                </optgroup>
+            {% else %}
+                {% set attr = choice.attr %}
+                <option {{ block("attributes") }} value="{{ choice.value }}"{% if choice is selectedchoice(value) %} selected="selected"{% endif %}>{{ choice.label|trans({}, translation_domain) }}</option>
+            {% endif %}
+        {% endfor %}
+    {% endspaceless %}
+{% endblock choice_widget_options %}
