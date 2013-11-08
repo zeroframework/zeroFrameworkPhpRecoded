@@ -20,6 +20,12 @@ class swiftmailerbundle {
             return new \Swift_Mailer($app['swiftmailer.spooltransport']);
         });
 
+        $app['mailer.imediate'] = $app->share(function ($app) {
+            $app['mailer.initialized'] = true;
+
+            return new \Swift_Mailer($app['swiftmailer.transport']);
+        });
+
         $app['swiftmailer.spooltransport'] = $app->share(function ($app) {
             return new \Swift_SpoolTransport($app['swiftmailer.spool']);
         });

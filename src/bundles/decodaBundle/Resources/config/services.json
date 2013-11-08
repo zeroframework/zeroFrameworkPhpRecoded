@@ -1,0 +1,10 @@
+{
+    "decoda.twig.helper" :
+    {
+        "class" : "service\\DecodaTwigHelper",
+        "parameters" : ["@service_container"],
+        "tags" : [
+            {"name" : "twig.extension"}
+        ]
+    }
+}

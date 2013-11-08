@@ -21,5 +21,7 @@ class baseBundle {
 	    $container->services = array_merge($container->services, $services);
 
 	    $container->eventmanager = $app->getEventManager();
+
+        $container->kernel = $app;
     }
 }

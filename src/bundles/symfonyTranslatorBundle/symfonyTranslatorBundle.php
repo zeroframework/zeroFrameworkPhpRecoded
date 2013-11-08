@@ -41,7 +41,7 @@ class symfonyTranslatorBundle
         $app['translator.domains'] = array();
 
         $app['locale_fallbacks'] = array(
-            'en'
+            'fr'
         );
     }
 }
