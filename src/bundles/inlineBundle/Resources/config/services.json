@@ -1,0 +1,15 @@
+{
+    "inline" :
+    {
+        "class" : "TijsVerkoyen\\CssToInlineStyles\\CssToInlineStyles",
+        "parameters" : []
+    },
+    "swiftmailer.plugin.inline" :
+    {
+        "class" : "SwiftPlugin\\CssInlinerPlugin",
+        "parameters" : ["@service_container"],
+        "tags" : [
+            {"name" : "swiftmailer.plugin"}
+        ]
+    }
+}

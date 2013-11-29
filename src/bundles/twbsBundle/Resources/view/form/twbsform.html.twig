@@ -94,3 +94,20 @@
         {% endfor %}
     {% endspaceless %}
 {% endblock choice_widget_options %}
+
+{% block date_widget %}
+{% spaceless %}
+{% if widget == 'single_text' %}
+    {% set attr = attr|merge({ 'class': (attr.class|default('') ~ ' form-control')|trim }) %}
+        <div class="input-group date datepicker">
+            <input type="text" {{ block('widget_attributes') }}>
+            <span class="input-group-addon">
+                <span class="glyphicon glyphicon-calendar"></span>
+            </span>
+        </div>
+{% else %}
+    {{ block('form_widget_simple') }}
+{% endif %}
+{{ block('form_message') }}
+{% endspaceless %}
+{% endblock date_widget %}

@@ -8,13 +8,31 @@
  */
 
 class swiftmailerbundle {
+
+    public static function loadServices($app)
+    {
+        $container = $app->getServiceContainer();
+
+        // Initialise le parametres services comme un tableau vide s'il n'existe pas sinon fussion un autre tableau à celui déjà existant
+        $services = $app->getConf()->loadConfigurationFile("services", __DIR__.DIRECTORY_SEPARATOR."Resources".DIRECTORY_SEPARATOR."config");
+
+        if(!$container->has("services")) $container->services = array();
+
+        $container->services = array_merge($container->services, $services);
+    }
+
     public static function register($core)
     {
+        self::loadServices($core);
+
         $app = $core->getServiceContainer();
 
         $app['mailer.initialized'] = false;
 
         $app['mailer'] = $app->share(function ($app) {
+
+            if($app["debug"]) return $app["mailer.imediate"];
+
             $app['mailer.initialized'] = true;
 
             return new \Swift_Mailer($app['swiftmailer.spooltransport']);

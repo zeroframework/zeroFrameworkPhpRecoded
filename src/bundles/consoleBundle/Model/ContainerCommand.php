@@ -23,4 +23,13 @@ class ContainerCommand extends Command implements containerAwaireInterface
     {
         return $this->container;
     }
+
+
+    /**
+     * @return \service\ApplicationManager
+     */
+    public function getApplicationManager()
+    {
+        return $this->getContainer()->get("app.manager");
+    }
 }

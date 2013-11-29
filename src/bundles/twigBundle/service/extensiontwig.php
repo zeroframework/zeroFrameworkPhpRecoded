@@ -24,7 +24,6 @@ class extensiontwig
                             $container->get("twig")
                                 ->addExtension($container->get($servicename));
                         }
-
 				    }
 			    }
 		    }

@@ -1,0 +1,9 @@
+{
+    "doctrinefixture.command.loadfixture" : {
+        "class" : "Command\\LoadDataFixturesDoctrineCommand",
+        "parameters" : ["@service_container"],
+        "tags": [
+            {"name" : "kernel.command"}
+        ]
+    }
+}

@@ -248,6 +248,7 @@ class doctrineBundle
             $config = new ORMConfiguration;
             $config->setMetadataCacheImpl($cache);
             $config->setQueryCacheImpl($cache);
+            $config->setResultCacheImpl($cache);
 
             $chain = new MappingDriverChain;
 

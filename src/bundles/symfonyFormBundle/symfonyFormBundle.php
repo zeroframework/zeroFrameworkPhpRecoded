@@ -34,6 +34,15 @@ class symfonyFormBundle
 
         $app['form.secret'] = md5(__DIR__);
 
+        if($app->has(""))
+        {
+            $app['form.type.extensions'] = $app->share(function ($app) {
+                return array();
+            });
+        }
+
+        //if($app)
+
         $app['form.type.extensions'] = $app->share(function ($app) {
             return array();
         });
@@ -60,27 +69,56 @@ class symfonyFormBundle
             return $extensions;
         });
 
-        $app['form.factory'] = $app->share(function ($app) {
-            return Forms::createFormFactoryBuilder()
-                ->addExtensions($app['form.extensions'])
-                ->addTypeExtensions($app['form.type.extensions'])
-                ->addTypeGuessers($app['form.type.guessers'])
-                ->getFormFactory()
-                ;
-        });
+        $app['form.factory'] = $app->share(function ($container) {
+                $factory = Forms::createFormFactoryBuilder();
 
-        $app['form.csrf_provider'] = $app->share(function ($app) {
-            if (isset($app['session'])) {
-                return new SessionCsrfProvider($app['session'], $app['form.secret']);
+                foreach($container->services as $servicename => $serviceparameters)
+                {
+                    if(!empty($serviceparameters["tags"]))
+                    {
+                        foreach($serviceparameters["tags"] as $tag)
+                        {
+                            if($tag["name"] == "form.type")
+                            {
+                                $factory->addType($container->get($servicename));
+                            }
+                            elseif($tag["name"] == "form.type_extension")
+                            {
+                                $factory->addTypeExtension($container->get($servicename));
+                            }
+                            elseif($tag["name"] == "form.extension")
+                            {
+                                $factory->addExtension($container->get($servicename));
+                            }
+                            elseif($tag["name"] == "form.type_guesser")
+                            {
+                                $factory->addTypeGuesser($container->get($servicename));
+                            }
+                        }
+                    }
+                }
+
+                $container->get("eventmanager")->notify("onExtensionFormLoaded");
+
+                return $factory
+                    ->addExtensions($container['form.extensions'])
+                    ->addTypeExtensions($container['form.type.extensions'])
+                    ->addTypeGuessers($container['form.type.guessers'])
+                    ->getFormFactory();
+            });
+
+            $app['form.csrf_provider'] = $app->share(function ($app) {
+                if (isset($app['session'])) {
+                    return new SessionCsrfProvider($app['session'], $app['form.secret']);
+                }
+
+                return new DefaultCsrfProvider($app['form.secret']);
+            });
+
+            if($app->has("form.factory"))
+            {
+                self::loadDoctrineFormExtension($app);
             }
-
-            return new DefaultCsrfProvider($app['form.secret']);
-        });
-
-        if($app->has("form.factory"))
-        {
-            self::loadDoctrineFormExtension($app);
-        }
     }
 
 

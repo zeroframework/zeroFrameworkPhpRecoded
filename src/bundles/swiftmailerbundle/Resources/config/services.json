@@ -1,0 +1,9 @@
+{
+    "swiftmailer.pluginloader" : {
+        "class" : "service\\SwiftPluginLoader",
+        "parameters" : [],
+        "tags" : [
+            {"name" : "kernel.event", "event" : "onReady", "method" : "onReady"}
+        ]
+    }
+}

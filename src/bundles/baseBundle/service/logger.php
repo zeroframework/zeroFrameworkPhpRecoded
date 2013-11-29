@@ -28,6 +28,7 @@ class logger extends AbstractLogger {
             {
                 echo "Un probleme de droit sur ".APP_DIRECTORY."/log.txt est survenu \r\n";
             }
+
             $this->file = null;
         }
 
