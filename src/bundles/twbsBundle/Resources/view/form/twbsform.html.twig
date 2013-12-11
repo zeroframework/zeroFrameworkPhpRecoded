@@ -13,6 +13,57 @@
     {% endspaceless %}
 {% endblock form_row %}
 
+{% block _contact_visite_row %}
+    {% spaceless %}
+        <div class="form-group">
+            {{ form_label(form, null, {"label_attr" : {"class" : "col-lg-2 control-label"}}) }}
+            {{ form_errors(form) }}
+            <div class="col-lg-12">
+                  {{ form_widget(form) }}
+            </div>
+        </div>
+    {% endspaceless %}
+{% endblock _contact_visite_row %}
+
+{% block pre_widget %}
+    {% spaceless %}
+        <pre id="{{ id }}">{{ value }}</pre>
+        <input type="hidden" {{ block('widget_attributes') }} value="{{ value }}"/>
+    {% endspaceless %}
+{% endblock pre_widget %}
+
+{% block form_javascript %}
+    {% spaceless %}
+        {% for child in form %}
+            {{ form_javascript(child) }}
+        {% endfor %}
+    {% endspaceless %}
+{% endblock form_javascript %}
+
+{% block field_javascript "" %}
+
+{% block button_javascript "" %}
+
+{% block slider_javascript %}
+        $("#{{ id }}").slider();
+{% endblock %}
+
+{% block slider_widget %}
+    {% set type = type|default('text') %}
+    {% set attr = attr|merge({"class" : (attr.class|default('') ~ ' slider-range')|trim, "data-slider-min" : min, "data-slider-max" : max, "data-view-values" : ("#view-value-left-" ~ id ~ ", #view-value-right-" ~ id), "data-slider-step" : step, "data-slider-value" : "[" ~ value ~ "]", "data-slider-orientation" : orientation, "data-slider-selection" : selection, "data-slider-tooltip" : "show"}) %}
+    <div class="slider {{ color }}">
+    <b class="padding-10">
+        <span id="view-value-left-{{ id }}">{{ min }}</span>
+        {{ post_view_value }}
+    </b>
+    {{ block('form_widget_simple') }}
+    <b class="padding-10">
+        <span id="view-value-left-{{ id }}">{{ max }}</span>
+        {{ post_view_value }}
+    </b>
+    </div>
+{% endblock %}
+
 {% block choice_widget_collapsed %}
     {% spaceless %}
         {% set attr = attr|merge({ 'class': (attr.class|default('') ~ ' form-control')|trim }) %}
@@ -61,7 +112,6 @@
 
 {% block checkbox_row %}
     {% spaceless %}
-        <div class="form-group">
             <div class="col-lg-offset-2 col-lg-10">
                 <div class="checkbox">
                     <label>
@@ -69,7 +119,6 @@
                     </label>
                 </div>
             </div>
-        </div>
     {% endspaceless %}
 {% endblock checkbox_row %}
 
@@ -100,7 +149,7 @@
 {% if widget == 'single_text' %}
     {% set attr = attr|merge({ 'class': (attr.class|default('') ~ ' form-control')|trim }) %}
         <div class="input-group date datepicker">
-            <input type="text" {{ block('widget_attributes') }}>
+            <input type="text" {{ block('widget_attributes') }} value="{{ value }}">
             <span class="input-group-addon">
                 <span class="glyphicon glyphicon-calendar"></span>
             </span>
@@ -111,3 +160,9 @@
 {{ block('form_message') }}
 {% endspaceless %}
 {% endblock date_widget %}
+
+{% block checkbox_widget %}
+    {% spaceless %}
+        <input type="checkbox" style="margin-left: 0px" {{ block('widget_attributes') }}{% if value is defined %} value="{{ value }}"{% endif %}{% if checked %} checked="checked"{% endif %} />
+    {% endspaceless %}
+{% endblock checkbox_widget %}

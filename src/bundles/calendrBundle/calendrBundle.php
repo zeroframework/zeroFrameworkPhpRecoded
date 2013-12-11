@@ -9,7 +9,7 @@ class calendrBundle
     /**
      * {@inheritdoc}
      */
-    public function register($core)
+    public static function register($core)
     {
         $app = $core->getServiceContainer();
 

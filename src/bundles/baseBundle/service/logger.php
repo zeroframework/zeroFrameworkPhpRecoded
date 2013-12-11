@@ -15,11 +15,16 @@ class logger extends AbstractLogger {
 
 	private $file;
 
-    public function __construct()
+    private $loglevels;
+
+    public function __construct(array $loglevels)
     {
+        $this->loglevels = $loglevels;
+
+        if(empty($loglevels)) return;
 
 	    try {
-            $this->file = new \SplFileObject(APP_DIRECTORY."/log.txt", "w+");
+            $this->file = new \SplFileObject(APP_DIRECTORY."/log.txt", "a+");
         }
         catch(\Exception $e)
         {
@@ -54,11 +59,13 @@ class logger extends AbstractLogger {
 
     public function log($logLevel, $message, array $context = array())
     {
+        if(!in_array($logLevel, $this->loglevels)) return;
+
         if($this->isFile()) $this->file->fwrite("[LOG $logLevel] ".$message."\r\n");
     }
 
     public function onReady()
     {
-        $this->info("c moi jesus christ");
+        $this->info("framework started");
     }
 }

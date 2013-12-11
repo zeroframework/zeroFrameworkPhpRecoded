@@ -104,7 +104,7 @@ class autoloader {
                  {
                      $this->cache[$className] = $file->getRealPath();
                      $this->cacheUpdated = true;
-                     include($file->getRealPath());
+                     include_once($file->getRealPath());
 
                      return;
                  }

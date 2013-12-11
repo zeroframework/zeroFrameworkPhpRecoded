@@ -86,6 +86,7 @@ class swiftmailerbundle {
             $transport->setUsername($options['username']);
             $transport->setPassword($options['password']);
             $transport->setAuthMode($options['auth_mode']);
+            //$transport->
 
             return $transport;
         });

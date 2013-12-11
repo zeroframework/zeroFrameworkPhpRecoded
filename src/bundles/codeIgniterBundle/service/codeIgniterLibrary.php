@@ -2,6 +2,8 @@
 
 namespace service;
 
+use Exception\HumanException;
+
 class codeIgniterLibrary
 {
     private $library;

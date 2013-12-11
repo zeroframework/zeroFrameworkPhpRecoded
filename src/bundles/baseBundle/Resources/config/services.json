@@ -3,7 +3,7 @@
    "logger" :
    {
         "class" : "service\\logger",
-        "parameters" : [],
+        "parameters" : ["@loglevels"],
         "tags" : [
             {"name" : "kernel.event", "event" : "onReady", "method" : "onReady"}
         ]

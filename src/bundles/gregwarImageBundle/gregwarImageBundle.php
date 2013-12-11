@@ -8,7 +8,7 @@
  */
 
 class gregwarImageBundle {
-    public function register($app)
+    public static function register($app)
     {
         // R�cupere le service container
         $container = $app->getServiceContainer();

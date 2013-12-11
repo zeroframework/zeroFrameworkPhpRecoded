@@ -17,8 +17,9 @@ class SwiftPluginLoader extends serviceHelper
                 {
                     if($tag["name"] == "swiftmailer.plugin")
                     {
-                        $container->get("mailer.imediate")
-                                ->registerPlugin($container->get($servicename));
+                        $mailer = (isset($tag["mailer"])) ? $container->get($tag["mailer"]) : $container->get("mailer.imediate");
+
+                        $mailer->registerPlugin($container->get($servicename));
                     }
                 }
             }
