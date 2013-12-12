@@ -10,7 +10,7 @@ class consoleBundle
 
         $container->console = $container->share(function($c)
         {
-            return new Application();
+            return new ConsoleApplicationZf();
         });
 
         $eventManager = $app->getEventManager();

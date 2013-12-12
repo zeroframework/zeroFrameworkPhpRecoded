@@ -195,7 +195,7 @@ class codeIgniterTwig extends \Twig_Extension
 
     public function trans($name, $data = array(), $domaine = "messages")
     {
-        $translated = translate($name);
+        $translated = (function_exists("translate")) ? translate($name) : $name;
 
         if($translated != $name) return $translated;
 

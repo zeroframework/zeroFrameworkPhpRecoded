@@ -1,0 +1,10 @@
+{
+    "app.command.testunit" :
+    {
+        "class" : "Command\\CommandUnitTest",
+        "parameters" : ["@service_container"],
+        "tags" : [
+            {"name" : "kernel.command"}
+        ]
+    }
+}
