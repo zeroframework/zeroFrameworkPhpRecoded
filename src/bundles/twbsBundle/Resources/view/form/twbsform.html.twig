@@ -4,11 +4,11 @@
 {% block form_row %}
     {% spaceless %}
         <div class="form-group">
-            {{ form_label(form, null, {"label_attr" : {"class" : "col-lg-2 control-label"}}) }}
-            {{ form_errors(form) }}
-            <div class="col-lg-10">
+            {{ form_label(form, null, {"label_attr" : {"class" : "col-lg-3 control-label"}}) }}
+            <div class="col-lg-9">
                  {{ form_widget(form) }}
             </div>
+            {{ form_errors(form, {"attr": {"class" : "list-inline"}}) }}
         </div>
     {% endspaceless %}
 {% endblock form_row %}

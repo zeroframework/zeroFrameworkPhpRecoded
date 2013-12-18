@@ -36,11 +36,14 @@ class CssInlinerPlugin implements \Swift_Events_SendListener, containerAwaireInt
         {
             $inline = $this->getContainer()->get("inline");
 
-            $inline->setCss(file_get_contents($this->get("bootstrapcss")));
+            //$inline->setCss(file_get_contents($this->get("bootstrapcss")));
 
             $inline->setEncoding("UTF-8");
 
-            $inline->setUseInlineStylesBlock(TRUE);
+            $inline->setUseInlineStylesBlock(FALSE);
+
+            $inline->setCssRules(require_once(APP_DIRECTORY.DIRECTORY_SEPARATOR."CssRulesCompiled".DIRECTORY_SEPARATOR."bootstrap.cssrules.php"));
+
         }
 
         return $inline;
@@ -72,7 +75,7 @@ class CssInlinerPlugin implements \Swift_Events_SendListener, containerAwaireInt
             {
                 $converter->setHTML($part->getBody());
 
-                $part->setBody($converter->convert());
+                $part->setBody($converter->convert(false, false));
             }
         }
     }

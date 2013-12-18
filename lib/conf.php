@@ -2,8 +2,6 @@
 
 class conf {
 
-    private $conf;
-
     public function __construct()
     {
 
@@ -20,6 +18,10 @@ class conf {
         elseif(file_exists($pathWithoutExtension.".json"))
         {
             $vars = json_decode(file_get_contents($pathWithoutExtension.".json"), true);
+        }
+        elseif(file_exists($pathWithoutExtension.".php"))
+        {
+            $vars = require_once($pathWithoutExtension.".php");
         }
 
         if(!isset($vars)) throw new \Exception("configuration doesn't load $directory : $name !");
