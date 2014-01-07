@@ -7,14 +7,23 @@
  * To change this template use File | Settings | File Templates.
  */
 
-class event {
+use \Psr\Log\LoggerInterface;
+
+use \Psr\Log\LoggerAwareTrait;
+
+use \Psr\Log\LoggerAwareInterface;
+
+use \Psr\Log\LogLevel;
+
+class event implements LoggerAwareInterface {
+
+        use LoggerAwareTrait;
+
         const PRIORITY_LOW = 3;
         const PRIORITY_MEDIUM = 2;
         const PRIORITY_HIGH = 1;
 
-
-
-         private $events = array();
+        private $events = array();
 
         public function __construct()
         {
@@ -32,6 +41,22 @@ class event {
             );
         }
 
+        /**
+         * @return bool
+         */
+        private function hasLogger()
+        {
+            return $this->logger !== null;
+        }
+
+        /**
+         * @return LoggerInterface
+         */
+        private function getLogger()
+        {
+            return $this->logger;
+        }
+
         private function hasEvent($name)
         {
             return isset($this->events[$name]);
@@ -42,6 +67,8 @@ class event {
             if(!$this->hasEvent($name)) $this->addEvent($name);
 
             $this->events[$name][$priority][] = $handle;
+
+            if($this->hasLogger()) $this->getLogger()->log(LogLevel::DEBUG, "[EVENT] Element start listen event $name with priority $priority");
         }
 
         public function notify($name)
@@ -50,11 +77,15 @@ class event {
 
              ksort($this->events[$name]);
 
+            if($this->hasLogger()) $this->getLogger()->log(LogLevel::DEBUG, "[EVENT] $name trigger started");
+
              foreach($this->events[$name] as $listeners)
              {
                  foreach($listeners as $listener)
                  {
                      call_user_func_array($listener, func_get_args());
+
+                     if($this->hasLogger()) $this->getLogger()->log(LogLevel::DEBUG, "[EVENT] $name pass to listener ''");
                  }
              }
 

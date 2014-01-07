@@ -6,7 +6,7 @@ class symfonyRouterBundle
     {
         $container = $app->getServiceContainer();
 
-        $context = new \Symfony\Component\Routing\RequestContext((isset($_SERVER["REQUEST_URI"]) ? $_SERVER["REQUEST_URI"] : $container->get("baseurl")));
+        $context = new \Symfony\Component\Routing\RequestContext("http://".$container->get("domaine"));
 
         $container->routersymfony = new \Symfony\Component\Routing\Router(
             new Loader\ZFRoutingLoader($app->getConf(), APP_DIRECTORY."/Resources/config"),

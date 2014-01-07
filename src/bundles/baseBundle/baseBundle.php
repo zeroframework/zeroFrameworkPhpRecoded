@@ -22,6 +22,14 @@ class baseBundle {
 
 	    $container->eventmanager = $app->getEventManager();
 
+        $container->eventmanager->listenEvent("onReady", function() use ($container)
+        {
+            if($container->eventmanager instanceof \Psr\Log\LoggerAwareInterface)
+            {
+                $container->eventmanager->setLogger($container->logger);
+            }
+        });
+
         $container->kernel = $app;
     }
 }
