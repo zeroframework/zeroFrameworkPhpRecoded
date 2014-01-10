@@ -6,7 +6,9 @@ class symfonyRouterBundle
     {
         $container = $app->getServiceContainer();
 
-        $context = new \Symfony\Component\Routing\RequestContext("http://".$container->get("domaine"));
+        $scheme = ($container->has("request")) ? $container->get("request")->getScheme() : "http";
+
+        $context = new \Symfony\Component\Routing\RequestContext($scheme."://".$container->get("domaine"));
 
         $container->routersymfony = new \Symfony\Component\Routing\Router(
             new Loader\ZFRoutingLoader($app->getConf(), APP_DIRECTORY."/Resources/config"),

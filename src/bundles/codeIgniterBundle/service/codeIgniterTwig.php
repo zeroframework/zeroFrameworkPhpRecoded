@@ -108,9 +108,22 @@ class codeIgniterTwig extends \Twig_Extension
         return $relative_date;
     }
 
+    public function getDomaine()
+    {
+        static $domaine;
+
+        if(null !== $domaine) return $domaine;
+
+        $domaine = $this->container->get("domaine");
+
+        return $domaine;
+    }
+
     public function assets_url($file)
     {
-        return $this->base_url("")."assets/".$file;
+        $scheme = ($this->container->has("request")) ? $this->container->get("request")->getScheme() : "http";
+
+        return $scheme."://".$this->getDomaine()."/assets/".$file;
     }
 
     public function is_logged()
@@ -139,22 +152,30 @@ class codeIgniterTwig extends \Twig_Extension
 
     public function css_url()
     {
-       return "http://test.adibox.com/css/templates/blue";
+        $scheme = ($this->container->has("request")) ? $this->container->get("request")->getScheme() : "http";
+
+        return $scheme."://".$this->getDomaine()."/css/templates/blue";
     }
 
     public function base_url()
     {
-       return "http://test.adibox.com/";
+        $scheme = ($this->container->has("request")) ? $this->container->get("request")->getScheme() : "http";
+
+        return $scheme."://".$this->getDomaine()."/";
     }
 
     public function image_url()
     {
-        return "http://test.adibox.com/";
+        $scheme = ($this->container->has("request")) ? $this->container->get("request")->getScheme() : "http";
+
+        return $scheme."://".$this->getDomaine()."/";
     }
 
     public function site_url($path = "")
     {
-       return "http://test.adibox.com/".(($this->container->get("debug")) ? "index_dev.php/" : "").$path;
+        $scheme = ($this->container->has("request")) ? $this->container->get("request")->getScheme() : "http";
+
+        return $scheme."://".$this->getDomaine()."/".(($this->container->get("debug")) ? "index_dev.php/" : "").$path;
     }
 
     public function getFilters()

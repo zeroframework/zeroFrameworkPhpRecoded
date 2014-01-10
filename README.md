@@ -285,9 +285,15 @@ class app Extends Core implements interfaces\event, interfaces\core {
 			    {
 				    if($tag["name"] == "kernel.event")
 				    {
-					    $this
-						    ->getEventManager()
-						    ->listenEvent($tag["event"], array($container->get($servicename), $tag["method"]));
+                       // Prevent initialize object
+                       $handle = function() use ($container, $servicename, $tag)
+                       {
+                           call_user_func_array(array($container->get($servicename), $tag["method"]), func_get_args());
+                       };
+
+                        $this
+                            ->getEventManager()
+                            ->listenEvent($tag["event"], $handle, $tag["priority"]);
 				    }
 			    }
 		    }
