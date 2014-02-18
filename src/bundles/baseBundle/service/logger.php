@@ -61,7 +61,7 @@ class logger extends AbstractLogger {
     {
         if(!in_array($logLevel, $this->loglevels)) return;
 
-        if($this->isFile()) $this->file->fwrite("[LOG $logLevel] ".$message."\r\n");
+        if($this->isFile()) $this->file->fwrite("[".date("d/m/Y H:i:s")."] [LOG $logLevel] ".$message."\r\n");
     }
 
     public function onReady()

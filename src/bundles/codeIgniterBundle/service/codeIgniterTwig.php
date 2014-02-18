@@ -46,68 +46,6 @@ class codeIgniterTwig extends \Twig_Extension
         );
     }
 
-    public function relativeDate($date = null, $limit = null)
-    {
-        if($date === null) return;
-
-        if(is_string($date))
-        {
-            $date = new \DateTime($date);
-        }
-
-        $date_a_comparer = $date;
-        $date_actuelle = new \DateTime("now");
-
-        $intervalle = $date_a_comparer->diff($date_actuelle);
-
-        if ($date_a_comparer > $date_actuelle)
-        {
-            $prefixe = 'dans ';
-        }
-        else
-        {
-            $prefixe = 'il y a ';
-        }
-
-        $ans = $intervalle->format('%y');
-        $mois = $intervalle->format('%m');
-        $jours = $intervalle->format('%d');
-        $heures = $intervalle->format('%h');
-        $minutes = $intervalle->format('%i');
-        $secondes = $intervalle->format('%s');
-
-        if ($ans != 0)
-        {
-            $relative_date = $prefixe . $ans . ' an' . (($ans > 1) ? 's' : '');
-            if ($mois >= 6) $relative_date .= ' et demi';
-        }
-        elseif ($mois != 0)
-        {
-            $relative_date = $prefixe . $mois . ' mois';
-            if ($jours >= 15) $relative_date .= ' et demi';
-        }
-        elseif ($jours != 0)
-        {
-            $relative_date = $date->format("d-m-Y H:i:s");
-
-            //$relative_date = $prefixe . $jours . ' jour' . (($jours > 1) ? 's' : '');
-        }
-        elseif ($heures != 0)
-        {
-            $relative_date = $prefixe . $heures . ' heure' . (($heures > 1) ? 's' : '');
-        }
-        elseif ($minutes != 0)
-        {
-            $relative_date = $prefixe . $minutes . ' minute' . (($minutes > 1) ? 's' : '');
-        }
-        else
-        {
-            $relative_date = $prefixe . ' quelques secondes';
-        }
-
-        return $relative_date;
-    }
-
     public function getDomaine()
     {
         static $domaine;
@@ -182,7 +120,6 @@ class codeIgniterTwig extends \Twig_Extension
     {
         return array(
             new \Twig_SimpleFilter('trans', array($this, 'trans')),
-            new \Twig_SimpleFilter("relativeDate", array($this, "relativeDate")),
         );
     }
 
@@ -216,6 +153,8 @@ class codeIgniterTwig extends \Twig_Extension
 
     public function trans($name, $data = array(), $domaine = "messages")
     {
+        if(empty($name)) return $name;
+
         $translated = (function_exists("translate")) ? translate($name) : $name;
 
         if($translated != $name) return $translated;

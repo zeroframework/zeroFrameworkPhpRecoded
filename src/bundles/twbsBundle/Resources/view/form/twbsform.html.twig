@@ -3,15 +3,40 @@
 {# make the form fragment customization #}
 {% block form_row %}
     {% spaceless %}
-        <div class="form-group">
+        <div class="form-group {% if errors|length > 0 %}has-error{% endif %}">
             {{ form_label(form, null, {"label_attr" : {"class" : "col-lg-3 control-label"}}) }}
             <div class="col-lg-9">
                  {{ form_widget(form) }}
             </div>
+            <div class="col-lg-9 col-lg-offset-3">
             {{ form_errors(form, {"attr": {"class" : "list-inline"}}) }}
+            </div>
         </div>
     {% endspaceless %}
 {% endblock form_row %}
+
+{% block form_errors %}
+    {% spaceless %}
+        {% set a = false %}
+        {% for child in form.children %}
+            {% if child.vars.errors is defined and child.vars.errors %}
+                {% set a = 'true' %}
+            {% endif %}
+        {% endfor %}
+        {% if a == true %}
+            {% for children in form.children %} {{ form_errors(children) }} {% endfor %}
+        {% endif %}
+        {% if errors|length > 0 %}
+            <ul class="list-error">
+                {% for error in errors %}
+                    <li class="text-danger">
+                        <strong>{% if label is empty %}{{ name | trans | capitalize }}{% else %}{{ label | trans | capitalize }}{% endif %}</strong> :  {{ error.messagePluralization is null ? error.messageTemplate|trans(error.messageParameters, 'validators') : error.messageTemplate|transchoice(error.messagePluralization, error.messageParameters, 'validators') }}
+                    </li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    {% endspaceless %}
+{% endblock form_errors %}
 
 {% block _contact_visite_row %}
     {% spaceless %}
@@ -45,20 +70,28 @@
 {% block button_javascript "" %}
 
 {% block slider_javascript %}
-        $("#{{ id }}").slider();
+       $("#{{ id }}").slider();
 {% endblock %}
 
 {% block slider_widget %}
     {% set type = type|default('text') %}
     {% set attr = attr|merge({"class" : (attr.class|default('') ~ ' slider-range')|trim, "data-slider-min" : min, "data-slider-max" : max, "data-view-values" : ("#view-value-left-" ~ id ~ ", #view-value-right-" ~ id), "data-slider-step" : step, "data-slider-value" : "[" ~ value ~ "]", "data-slider-orientation" : orientation, "data-slider-selection" : selection, "data-slider-tooltip" : "show"}) %}
-    <div class="slider {{ color }}">
-    <b class="padding-10">
-        <span id="view-value-left-{{ id }}">{{ min }}</span>
+    <div class="slider {{ color }}" style="overflow: hidden">
+    {% if value is defined and value is not empty %}
+      {% set values = (value | split(",")) %}
+    {% else %}
+        {% set values = [min] %}
+    {% endif %}
+    <b class="padding-10"  style="float: left; padding-top: 2px;">
+        <span id="view-value-left-{{ id }}">{{ values[0] }}</span>
         {{ post_view_value }}
     </b>
-    {{ block('form_widget_simple') }}
-    <b class="padding-10">
-        <span id="view-value-left-{{ id }}">{{ max }}</span>
+    <div style="float: left">
+         {{ block('form_widget_simple') }}
+    </div>
+
+    <b class="padding-10" style="float: left; padding-top: 2px;">
+        <span id="view-value-left-{{ id }}">{% if values[1] is defined %}{{ values[1] }}{% else %}{{ max }}{% endif %}</span>
         {{ post_view_value }}
     </b>
     </div>
