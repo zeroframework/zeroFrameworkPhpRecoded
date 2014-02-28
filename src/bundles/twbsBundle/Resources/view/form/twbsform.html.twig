@@ -26,11 +26,12 @@
         {% if a == true %}
             {% for children in form.children %} {{ form_errors(children) }} {% endfor %}
         {% endif %}
+        <div class="error"></div>
         {% if errors|length > 0 %}
             <ul class="list-error">
                 {% for error in errors %}
                     <li class="text-danger">
-                        <strong>{% if label is empty %}{{ name | trans | capitalize }}{% else %}{{ label | trans | capitalize }}{% endif %}</strong> :  {{ error.messagePluralization is null ? error.messageTemplate|trans(error.messageParameters, 'validators') : error.messageTemplate|transchoice(error.messagePluralization, error.messageParameters, 'validators') }}
+                        <strong>{% if label is empty %}{{ name | trans | capitalize }} {% else %}{{ label | trans | capitalize }}{% endif %}</strong> :  {{ error.messagePluralization is null ? error.messageTemplate|trans(error.messageParameters, 'validators') : error.messageTemplate|transchoice(error.messagePluralization, error.messageParameters, 'validators') }}
                     </li>
                 {% endfor %}
             </ul>
@@ -49,6 +50,23 @@
         </div>
     {% endspaceless %}
 {% endblock _contact_visite_row %}
+
+{% block form_label %}
+{% spaceless %}
+    {% if label is not sameas(false) %}
+        {% if not compound %}
+            {% set label_attr = label_attr|merge({'for': id}) %}
+        {% endif %}
+        {% if required %}
+            {% set label_attr = label_attr|merge({'class': (label_attr.class|default('') ~ ' required')|trim}) %}
+        {% endif %}
+        {% if label is empty %}
+            {% set label = name|humanize %}
+        {% endif %}
+        <label{% for attrname, attrvalue in label_attr %} {{ attrname }}="{{ attrvalue }}"{% endfor %}>{{ label|trans({}, translation_domain) | capitalize }}</label>
+    {% endif %}
+{% endspaceless %}
+{% endblock form_label %}
 
 {% block pre_widget %}
     {% spaceless %}
@@ -76,24 +94,25 @@
 {% block slider_widget %}
     {% set type = type|default('text') %}
     {% set attr = attr|merge({"class" : (attr.class|default('') ~ ' slider-range')|trim, "data-slider-min" : min, "data-slider-max" : max, "data-view-values" : ("#view-value-left-" ~ id ~ ", #view-value-right-" ~ id), "data-slider-step" : step, "data-slider-value" : "[" ~ value ~ "]", "data-slider-orientation" : orientation, "data-slider-selection" : selection, "data-slider-tooltip" : "show"}) %}
-    <div class="slider {{ color }}" style="overflow: hidden">
+    <div class="slider {{ color }}" style="overflow: hidden; width: 360px;">
     {% if value is defined and value is not empty %}
       {% set values = (value | split(",")) %}
     {% else %}
         {% set values = [min] %}
     {% endif %}
-    <b class="padding-10"  style="float: left; padding-top: 2px;">
+    <b class="range-left"  style="min-width: {{ (max | length) * 15 }}px;">
         <span id="view-value-left-{{ id }}">{{ values[0] }}</span>
         {{ post_view_value }}
     </b>
     <div style="float: left">
          {{ block('form_widget_simple') }}
     </div>
-
-    <b class="padding-10" style="float: left; padding-top: 2px;">
+    {% if values[1] is defined %}
+    <b class="range-right" style="min-width: {{ (max | length) * 20 }}px;">
         <span id="view-value-left-{{ id }}">{% if values[1] is defined %}{{ values[1] }}{% else %}{{ max }}{% endif %}</span>
         {{ post_view_value }}
     </b>
+    {% endif %}
     </div>
 {% endblock %}
 
@@ -127,7 +146,7 @@
         {% set type = type|default('text') %}
         {% set attr = attr|merge({ 'class': (attr.class|default('') ~ ' form-control')|trim }) %}
 
-        <input type="{{ type }}" {{ block('widget_attributes') }} {% if value is not empty %}value="{{ value }}" {% endif %}/>
+        <input type="{{ type }}" {{ block('widget_attributes') }} {% if value is not null %}value="{{ value }}" {% endif %}/>
 
         {% if simple_col is defined %}
             </div>

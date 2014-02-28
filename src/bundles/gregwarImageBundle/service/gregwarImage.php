@@ -60,16 +60,17 @@ class gregwarImage extends \Twig_Extension {
 
         $handler_class = $this->options["handler_class"];
 
-        $web_dir = realpath($this->options["web_dir"]);
+        $web_dir = $this->options["web_dir"];
+
+        $cache_dir = realpath($this->options["cache_dir"]);
 
         $image = new $handler_class($file, $w, $h, null);
 
         $image->setCacheDir($this->options["cache_dir"]);
 
-        $image->setFileCallback(function($file) use ($web_dir)
+        $image->setFileCallback(function($file) use ($web_dir, $cache_dir)
         {
-           //echo "<BR>";
-           return str_replace($web_dir, "", realpath($file));
+           return str_replace($cache_dir, $web_dir, realpath($file));
         });
 
         return $image;
