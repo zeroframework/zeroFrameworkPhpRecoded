@@ -13,7 +13,7 @@ class symfonyRouterBundle
         $container->routersymfony = new \Symfony\Component\Routing\Router(
             new Loader\ZFRoutingLoader($app->getConf(), APP_DIRECTORY."/Resources/config"),
             'routing',
-            ($container->get("debug")) ? array() : array('cache_dir' => APP_DIRECTORY.'/cache'),
+            ($container->get("debug")) ? array() : array('cache_dir' => $container->get("routing.config")["cache_dir"]),
             $context
         );
     }
