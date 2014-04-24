@@ -17,15 +17,9 @@
 
 {% block form_errors %}
     {% spaceless %}
-        {% set a = false %}
-        {% for child in form.children %}
-            {% if child.vars.errors is defined and child.vars.errors %}
-                {% set a = 'true' %}
-            {% endif %}
+        {% for children in form.children %}
+         {{ form_errors(children) }}
         {% endfor %}
-        {% if a == true %}
-            {% for children in form.children %} {{ form_errors(children) }} {% endfor %}
-        {% endif %}
         <div class="error"></div>
         {% if errors|length > 0 %}
             <ul class="list-error">
