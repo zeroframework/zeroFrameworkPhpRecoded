@@ -31,7 +31,18 @@ class ZFRoutingLoader extends Loader
 
         foreach($routes as $routename => $routeparam)
         {
-            $collection->add($routename, new \Symfony\Component\Routing\Route($routeparam["path"], $routeparam["defaults"]));
+            $collection->add(
+                $routename,
+                new \Symfony\Component\Routing\Route(
+                    $routeparam["path"],
+                    (!empty($routeparam["defaults"])) ? $routeparam["defaults"] : array(),
+                    (!empty($routeparam["requirements"])) ? $routeparam["requirements"] : array(), // Requirements,
+                    (!empty($routeparam["options"])) ? $routeparam["options"] : array(), // options
+                    (!empty($routeparam["host"])) ? $routeparam["host"] : '', // Host
+                    (!empty($routeparam["schemes"])) ? $routeparam["schemes"] : array(), // Schemes
+                    (!empty($routeparam["methods"])) ? $routeparam["methods"] : array(), // Methods
+                    (!empty($routeparam["condition"])) ? $routeparam["condition"] : null // Condition
+                ));
         }
 
         return $collection;

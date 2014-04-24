@@ -37,7 +37,6 @@ class codeIgniterTwig extends \Twig_Extension
             'get_currency_code' => new \Twig_Function_Function("get_currency_code"),
             'is_logged' => new \Twig_Function_Method($this, "is_logged"),
             'user' => new \Twig_Function_Method($this, "getUser"),
-            "assets_url" => new \Twig_Function_Method($this, "assets_url"),
             "forward" => new \Twig_Function_Method($this, "forward"),
             "get_user_times" => new \Twig_Function_Function("get_user_times"),
             "get_list_by_id" => new \Twig_Function_Function("get_list_by_id"),
