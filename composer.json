@@ -1,5 +1,18 @@
 {
-	"require": {
-		"twig/twig": ">=1.8,<2.0-dev"
-	}
+    "name": "zeroframework/zeroframework",
+    "description": "twbs bundle for zeroframework",
+    "keywords": ["twbs", "zeroframework"],
+    "homepage": "https://github.com/zeroframework/zeroframework-twbs-bundle",
+    "type": "library",
+    "license": "GPLV2",
+    "authors": [
+        {
+            "name": "Jean pasqualini",
+            "email": "jpasqualini75@gmail.com",
+            "homepage": "http://fr.viadeo.com/fr/profile/developpeur.symfony2"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.0"
+    }
 }
