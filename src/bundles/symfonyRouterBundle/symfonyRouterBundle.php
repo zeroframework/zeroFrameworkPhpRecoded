@@ -6,9 +6,19 @@ class symfonyRouterBundle
     {
         $container = $app->getServiceContainer();
 
-        $scheme = ($container->has("request")) ? $container->get("request")->getScheme() : "http";
+        $context = new \Symfony\Component\Routing\RequestContext();
 
-        $context = new \Symfony\Component\Routing\RequestContext($scheme."://".$container->get("domaine"));
+        if($container->has("request"))
+        {
+            $request = $container->get("request");
+
+            $context->setBaseUrl($request->getScheme()."://".$container->get("domaine"));
+            $context->setMethod($request->getMethod());
+        }
+        else
+        {
+            $context->setBaseUrl("http://".$container->get("domaine"));
+        }
 
         $container->routersymfony = new \Symfony\Component\Routing\Router(
             new Loader\ZFRoutingLoader($app->getConf(), APP_DIRECTORY."/Resources/config"),
