@@ -62,6 +62,8 @@ class conf {
             }
 
             $vars = array_merge($dataImporteds, $vars);
+            
+            unset($vars["imports"]);
         }
 
         return $vars;
