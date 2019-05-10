@@ -36,6 +36,7 @@ Example de configuration
 
 application
 
+```
 <?php
 
 use \Doctrine\Common\Cache\ApcCache;
@@ -109,10 +110,12 @@ class application {
 
         $serviceContainer->merge($config);
 ?>
+```
 
 config application
 ------------------
 
+```
 {
     "debug" : true,
     "facebook.config" :
@@ -138,9 +141,11 @@ config application
         "password" : ""
     }
 }
+```
 
 bootloader
 
+```
 <?php
 
 
@@ -365,8 +370,10 @@ catch(\Exception $e)
 }
 
 ?
+```
 
 =======
+```
 $serviceContainer["db.options"] = array(
     'driver'    => 'pdo_mysql',
     'host'      => 'localhost',
@@ -391,11 +398,11 @@ $serviceContainer["db.options"] = array(
     'path'      => __DIR__ . '/src',   // path to your entity classes
     'namespace' => 'MyWebsite\Entity', // your classes namespace
     )),
-    ));
+```
     
 Example de configuration pour la console doctrine
 --------------------------------------------------
-
+```
     require __DIR__.'/../vendor/autoload.php';
     include __DIR__."/../zfboot.php";
 
@@ -412,4 +419,4 @@ Example de configuration pour la console doctrine
     ));
 
     ConsoleRunner::run($helperSet);
-
+```
